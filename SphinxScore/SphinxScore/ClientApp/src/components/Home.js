@@ -1,6 +1,17 @@
 import React from 'react';
-
+import axios from "axios";
 function Home() {
+    React.useEffect(() => {
+        (async () => {
+            await axios.get("https://localhost:44345/user")
+                .then((response) =>
+                    console.log(response.data)
+                )
+                .catch((error) => {
+                    console.error(error);
+                });
+        })();
+    }, []);
     return (
         <div>
             <h1>Hello, world!</h1>
@@ -20,5 +31,4 @@ function Home() {
         </div>
     );
 }
-
 export default Home;
