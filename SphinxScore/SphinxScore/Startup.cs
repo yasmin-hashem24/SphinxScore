@@ -1,10 +1,16 @@
+using EdgeDB;
+using Microsoft.AspNetCore.Mvc;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
+using System;
 
 namespace SphinxScore
 {
@@ -20,7 +26,6 @@ namespace SphinxScore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllersWithViews();
 
             // In production, the React files will be served from this directory
@@ -28,6 +33,14 @@ namespace SphinxScore
             {
                 configuration.RootPath = "ClientApp/build";
             });
+
+            services.AddEdgeDB(EdgeDBConnection.FromInstanceName("SphinxScore"), config =>
+            {
+                config.SchemaNamingStrategy = INamingStrategy.SnakeCaseNamingStrategy;
+            });
+
+           
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,7 +53,6 @@ namespace SphinxScore
             else
             {
                 app.UseExceptionHandler("/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
@@ -55,6 +67,27 @@ namespace SphinxScore
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
+
+                endpoints.MapControllers();
+                endpoints.MapGet("/user", async context =>
+                {
+                    try
+                    {
+                        var edgeDbClient = context.RequestServices.GetRequiredService<EdgeDBClient>();
+
+                        var query = "SELECT user { id, username, first_name, last_name, birth_date, gender, city, address, email_address, role }";
+                        var users = await edgeDbClient.QueryAsync<User>(query);
+
+
+                        await context.Response.WriteAsJsonAsync(users);
+                    }
+                    catch (Exception ex)
+                    {
+                        context.Response.StatusCode = 500;
+                        await context.Response.WriteAsync($"Error: {ex.Message}");
+                    }
+                });
+
             });
 
             app.UseSpa(spa =>
@@ -66,6 +99,8 @@ namespace SphinxScore
                     spa.UseReactDevelopmentServer(npmScript: "start");
                 }
             });
+
+            
         }
     }
 }
