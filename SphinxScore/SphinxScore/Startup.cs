@@ -69,6 +69,7 @@ namespace SphinxScore
                     pattern: "{controller}/{action=Index}/{id?}");
 
                 endpoints.MapControllers();
+                //https://localhost:44345/user
                 endpoints.MapGet("/user", async context =>
                 {
                     try
