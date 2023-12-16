@@ -12,6 +12,14 @@ function Home() {
                 });
         })();
     }, []);
+    axios
+        .post("https://localhost:44345/api/user/AddUser")
+        .then((response) => {
+            console.log(response.data);
+        })
+        .catch((error) => {
+            console.log(error);
+        });
     return (
         <div>
             <h1>Hello, world!</h1>
