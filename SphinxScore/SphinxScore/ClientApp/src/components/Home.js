@@ -3,7 +3,7 @@ import axios from "axios";
 function Home() {
     React.useEffect(() => {
         (async () => {
-            await axios.get("https://localhost:44345/user")
+            await axios.get("https://localhost:44345/api/user/users")
                 .then((response) =>
                     console.log(response.data)
                 )

@@ -21,10 +21,7 @@ namespace SphinxScore
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddEdgeDB(EdgeDBConnection.FromInstanceName("SphinxScore"), config =>
-            {
-                config.SchemaNamingStrategy = INamingStrategy.SnakeCaseNamingStrategy;
-            });
+           
             builder.Logging.AddConsole();
             CreateHostBuilder(args).Build().Run();
 

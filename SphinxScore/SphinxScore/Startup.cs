@@ -1,6 +1,4 @@
-using EdgeDB;
 using Microsoft.AspNetCore.Mvc;
-
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -11,6 +9,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using System;
+using MongoDB.Driver;
+using Microsoft.Extensions.Logging;
 
 namespace SphinxScore
 {
@@ -28,18 +28,50 @@ namespace SphinxScore
         {
             services.AddControllersWithViews();
 
+            services.AddLogging(builder =>
+            {
+                builder.AddConsole();
+            });
+            services.AddSingleton<IMongoClient>(sp =>
+            {
+                var connectionString = "mongodb+srv://yasminhashem201:rxahCtHfpBUPxO3b@cluster0.hlauz1s.mongodb.net/?retryWrites=true&w=majority";
+     
+                return new MongoClient(connectionString);
+            });
+
+            services.AddScoped<IMongoCollection<User>>(sp =>
+            {
+                var client = sp.GetRequiredService<IMongoClient>();
+                var databaseName = "SphinxScoreDB";
+                var collection = client.GetDatabase(databaseName).GetCollection<User>("user");
+
+                var collectionNames = client.GetDatabase(databaseName).ListCollectionNames().ToList();
+
+                return collection;
+            });
+
+            services.AddScoped<IMongoCollection<Match>>(sp =>
+            {
+                var client = sp.GetRequiredService<IMongoClient>();
+                var databaseName = "SphinxScoreDB";
+                var collection = client.GetDatabase(databaseName).GetCollection<Match>("match");
+
+                var collectionNames = client.GetDatabase(databaseName).ListCollectionNames().ToList();
+
+                return collection;
+            });
+
+
             // In production, the React files will be served from this directory
+
+
+
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/build";
             });
 
-            services.AddEdgeDB(EdgeDBConnection.FromInstanceName("SphinxScore"), config =>
-            {
-                config.SchemaNamingStrategy = INamingStrategy.SnakeCaseNamingStrategy;
-            });
-
-           
+      
 
         }
 
@@ -66,28 +98,7 @@ namespace SphinxScore
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller}/{action=Index}/{id?}");
-
-                endpoints.MapControllers();
-                //https://localhost:44345/user
-                endpoints.MapGet("/user", async context =>
-                {
-                    try
-                    {
-                        var edgeDbClient = context.RequestServices.GetRequiredService<EdgeDBClient>();
-
-                        var query = "SELECT user { id, username, first_name, last_name, birth_date, gender, city, address, email_address, role }";
-                        var users = await edgeDbClient.QueryAsync<User>(query);
-
-
-                        await context.Response.WriteAsJsonAsync(users);
-                    }
-                    catch (Exception ex)
-                    {
-                        context.Response.StatusCode = 500;
-                        await context.Response.WriteAsync($"Error: {ex.Message}");
-                    }
-                });
+                    pattern: "{controller}/{action=Index}/{id?}");    
 
             });
 

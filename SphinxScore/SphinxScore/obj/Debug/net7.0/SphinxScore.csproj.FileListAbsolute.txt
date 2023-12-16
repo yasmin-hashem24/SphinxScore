@@ -33,3 +33,16 @@ C:\Users\Lenovo\Desktop\SphinxScore\SphinxScore\SphinxScore\obj\Debug\net7.0\ref
 C:\Users\Lenovo\Desktop\SphinxScore\SphinxScore\SphinxScore\obj\Debug\net7.0\SphinxScore.pdb
 C:\Users\Lenovo\Desktop\SphinxScore\SphinxScore\SphinxScore\obj\Debug\net7.0\SphinxScore.genruntimeconfig.cache
 C:\Users\Lenovo\Desktop\SphinxScore\SphinxScore\SphinxScore\obj\Debug\net7.0\ref\SphinxScore.dll
+C:\Users\Lenovo\Desktop\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\AWSSDK.Core.dll
+C:\Users\Lenovo\Desktop\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\AWSSDK.SecurityToken.dll
+C:\Users\Lenovo\Desktop\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\DnsClient.dll
+C:\Users\Lenovo\Desktop\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\MongoDB.Bson.dll
+C:\Users\Lenovo\Desktop\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\MongoDB.Driver.dll
+C:\Users\Lenovo\Desktop\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\MongoDB.Driver.Core.dll
+C:\Users\Lenovo\Desktop\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\MongoDB.Libmongocrypt.dll
+C:\Users\Lenovo\Desktop\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\SharpCompress.dll
+C:\Users\Lenovo\Desktop\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\Snappier.dll
+C:\Users\Lenovo\Desktop\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\ZstdSharp.dll
+C:\Users\Lenovo\Desktop\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\runtimes\linux\native\libmongocrypt.so
+C:\Users\Lenovo\Desktop\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\runtimes\osx\native\libmongocrypt.dylib
+C:\Users\Lenovo\Desktop\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\runtimes\win\native\mongocrypt.dll

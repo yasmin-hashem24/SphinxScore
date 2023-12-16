@@ -51,6 +51,18 @@
             "Microsoft.AspNetCore.SpaServices.Extensions": {
               "target": "Package",
               "version": "[3.1.32, )"
+            },
+            "MongoDB.Bson": {
+              "target": "Package",
+              "version": "[2.23.1, )"
+            },
+            "MongoDB.Driver": {
+              "target": "Package",
+              "version": "[2.23.1, )"
+            },
+            "MongoDB.Driver.Core": {
+              "target": "Package",
+              "version": "[2.23.1, )"
             }
           },
           "imports": [

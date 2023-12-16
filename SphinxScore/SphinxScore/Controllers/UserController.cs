@@ -1,11 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using EdgeDB;
-using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using MongoDB.Driver;
 using System;
-using System.Linq;
 
 namespace SphinxScore.Controllers
 {
@@ -13,33 +9,51 @@ namespace SphinxScore.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly EdgeDBClient _edgeDbClient;
-        private readonly ILogger<UserController> _logger;
+        private readonly IMongoCollection<User> _userCollection;
 
-        public UserController(EdgeDBClient edgeDbClient, ILogger<UserController> logger)
+        public UserController(IMongoCollection<User> userCollection)
         {
-            _edgeDbClient = edgeDbClient;
-            _logger = logger;
+            _userCollection = userCollection;
         }
 
-        [HttpGet("user")]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        [HttpGet("users")]
+        public IActionResult GetUsers()
         {
             try
             {
-                var query = "SELECT user { id, username, first_name, last_name, birth_date, gender, city, address, email_address, role }";
-                var users = await _edgeDbClient.QueryAsync<User>(query);
-
-                // Log the users using ILogger
-                _logger.LogInformation($"Users: {string.Join(", ", users.Select(u => u.username))}");
-
+                var users = _userCollection.Find(_ => true).ToList();
                 return Ok(users);
             }
             catch (Exception ex)
             {
-                // Log the exception using ILogger
-                _logger.LogError($"Error: {ex.Message}");
+                return StatusCode(500, $"Error: {ex.Message}");
+            }
+        }
 
+        [HttpPost("AddUser")]
+        public IActionResult AddUser()
+        {
+            try
+            {
+                var newUser = new User
+                {
+                    username = "john_doe",
+                    password = "password123",
+                    first_name = "John",
+                    last_name = "Doe",
+                    birth_date = new DateTime(1990, 1, 1),
+                    gender = "Male",
+                    city = "City",
+                    address = "123 Main St",
+                    email_address = "john.doe@example.com",
+                    role = "User"
+                };
+
+                _userCollection.InsertOne(newUser);
+                return Ok("User added successfully");
+            }
+            catch (Exception ex)
+            {
                 return StatusCode(500, $"Error: {ex.Message}");
             }
         }
