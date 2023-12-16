@@ -1,25 +1,23 @@
 import React from 'react';
 import axios from "axios";
 function Home() {
-    React.useEffect(() => {
-        (async () => {
-            await axios.get("https://localhost:44345/api/user/users")
-                .then((response) =>
-                    console.log(response.data)
-                )
-                .catch((error) => {
-                    console.error(error);
-                });
-        })();
+   React.useEffect(() => {
+        const fetchData = async () => {
+            try {
+                // GET request
+                const getResponse = await axios.get("https://localhost:44345/api/user/users");
+                console.log(getResponse.data);
+
+                // POST request
+                const postResponse = await axios.post("https://localhost:44345/api/user/AddUser");
+                console.log(postResponse.data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        fetchData();
     }, []);
-    axios
-        .post("https://localhost:44345/api/user/AddUser")
-        .then((response) => {
-            console.log(response.data);
-        })
-        .catch((error) => {
-            console.log(error);
-        });
     return (
         <div>
             <h1>Hello, world!</h1>
