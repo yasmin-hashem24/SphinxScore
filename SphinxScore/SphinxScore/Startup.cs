@@ -101,6 +101,11 @@ namespace SphinxScore
                     pattern: "{controller}/{action=Index}/{id?}");    
 
             });
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
+
 
             app.UseSpa(spa =>
             {

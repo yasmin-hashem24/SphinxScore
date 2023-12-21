@@ -9,8 +9,8 @@ function Home() {
                 console.log(getResponse.data);
 
                 // POST request
-                const postResponse = await axios.post("https://localhost:44345/api/user/AddUser");
-                console.log(postResponse.data);
+               //const postResponse = await axios.post("https://localhost:44345/api/user/AddUser");
+               // console.log(postResponse.data);
             } catch (error) {
                 console.error(error);
             }

@@ -31,23 +31,21 @@ namespace SphinxScore.Controllers
         }
 
         [HttpPost("AddUser")]
-        public IActionResult AddUser()
+        public IActionResult AddUser([FromBody] User newUser)
         {
             try
             {
-                var newUser = new User
+                var existingUser = _userCollection.Find(u => u.username == newUser.username).FirstOrDefault();
+                if (existingUser != null)
                 {
-                    username = "john_doe",
-                    password = "password123",
-                    first_name = "John",
-                    last_name = "Doe",
-                    birth_date = new DateTime(1990, 1, 1),
-                    gender = "Male",
-                    city = "City",
-                    address = "123 Main St",
-                    email_address = "john.doe@example.com",
-                    role = "User"
-                };
+                    ModelState.AddModelError("username", "Username must be unique");
+                    return BadRequest(ModelState);
+                }
+
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
 
                 _userCollection.InsertOne(newUser);
                 return Ok("User added successfully");
