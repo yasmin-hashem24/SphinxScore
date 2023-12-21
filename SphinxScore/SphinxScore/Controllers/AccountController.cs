@@ -35,7 +35,7 @@ public class AccountController : ControllerBase
             }
 
             _userCollection.InsertOne(newUser);
-            return Ok("User added successfully");
+            return Ok("User added successfully. Awaiting approval.");
         }
         catch (Exception ex)
         {

@@ -39,5 +39,9 @@ namespace SphinxScore
 
         [Required(ErrorMessage = "Role is required")]
         public string role { get; set; } = " ";
+
+
+        public bool IsApproved { get; set; } = false;
+        public bool IsAdmin { get; set; } = false;
     }
 }
