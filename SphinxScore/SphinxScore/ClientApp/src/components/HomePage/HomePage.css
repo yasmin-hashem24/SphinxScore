@@ -1,0 +1,68 @@
+.HomePageLayout {
+  height: 99%;
+  width: 100%;
+
+  display: flex;
+  flex-direction: row;
+}
+.ImageDiv {
+  height: 100%;
+  flex: 1.7;
+}
+.ImageDiv img {
+  height: 100%;
+  width: 100%;
+}
+.ActionsDiv {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+.ActionsCard {
+  background-color: rgb(255, 196, 78);
+  padding-left: 10%;
+  padding-right: 10%;
+  padding-bottom: 5%;
+  padding-top: 5%;
+  margin: 4%;
+  border-radius: 10px;
+  box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.ActionsCard h2 {
+  color: white;
+}
+
+.ButtonsDiv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 60%;
+}
+
+.ButtonsDiv a {
+  width: 100%;
+}
+
+.ButtonsDiv button {
+  margin: 4px;
+  padding: 4px;
+  width: 100%;
+  color: rgb(196, 149, 56);
+  background-color: rgb(245, 240, 228);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  border: 0px;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+}
+
+.ButtonsDiv button:hover {
+  background-color: rgb(241, 232, 213);
+  cursor: pointer;
+}

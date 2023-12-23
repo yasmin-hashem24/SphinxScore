@@ -1,17 +1,22 @@
-import React from 'react';
-import './custom.css';
-import Home from "./components/Home";
-import { Route } from 'react-router-dom';
-import { BrowserRouter } from 'react-router-dom';
+import React from "react";
+import HomePage from "./components/HomePage/HomePage";
+import LogInPage from "./components/LogInPage/LogInPage";
+import SignUpPage from "./components/SignUpPage/SignUpPage";
+import "./App.css";
+import { Route } from "react-router-dom";
+import { Switch } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 
 function App() {
-    console.log("heree")
-    return (
-        <BrowserRouter>
-            <Route index component={Home} />
-        </BrowserRouter>
-    );
+  return (
+      <BrowserRouter>
+          <Switch>
+            <Route path="/" exact component={ HomePage } />
+            <Route path="/LogInPage" component={ LogInPage } />
+            <Route path="/SignUpPage" component={ SignUpPage } />
+          </Switch>
+      </BrowserRouter>
+  );
 }
 
 export default App;
-
