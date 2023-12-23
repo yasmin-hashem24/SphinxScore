@@ -28,3 +28,9 @@ public class Match
 
    
 }
+public class MatchUpdateModel
+{
+    public string Home { get; set; }
+    public string Away { get; set; }
+    public Match UpdatedMatch { get; set; }
+}

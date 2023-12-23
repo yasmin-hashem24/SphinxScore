@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using Newtonsoft.Json.Linq;
+using SphinxScore.Models;
 using System;
 
 namespace SphinxScore.Controllers;
@@ -11,15 +13,7 @@ namespace SphinxScore.Controllers;
 public class MangerController : ControllerBase
 {
     /*
-                     * F3: Create a new match event The EFA managers can create a new match event and
-            add all its details.
-            F4: Edit the details of an
-            existing match.
-            The EFA managers can change/edit the details of a
-            certain match.
-            F5: Add a new stadium. The EFA managers can add a new stadium and define
-            its shape and number of seats as shown below.
-            F6: View match details The EFA managers can view matches details.
+                     
             F7: View vacant/reserved
             seats for each match.
             The EFA managers can view the overall seat status for
@@ -28,12 +22,13 @@ public class MangerController : ControllerBase
 
     private readonly IMongoCollection<User> _userCollection;
     private readonly IMongoCollection<Match> _matchCollection;
+    private readonly IMongoCollection<Stadium> _stadiumCollection;
 
-
-    public MangerController(IMongoCollection<User> userCollection, IMongoCollection<Match> matchCollection)
+    public MangerController(IMongoCollection<User> userCollection, IMongoCollection<Match> matchCollection, IMongoCollection<Stadium> stadiumCollection)
     {
         _userCollection = userCollection;
         _matchCollection = matchCollection;
+        _stadiumCollection = stadiumCollection;
     }
 
     [HttpPost("CreateMatch")]
@@ -51,47 +46,91 @@ public class MangerController : ControllerBase
     }
 
     [HttpPatch("UpdateMatch")]
-
-    public IActionResult UpdateMatch([FromBody] JObject requestBody)
+    public IActionResult UpdateMatch([FromBody] MatchUpdateModel requestBody)
     {
         try
         {
+            if (requestBody == null)
+            {
+                return BadRequest("Invalid JSON data");
+            }
 
-            string home = requestBody["Home"]?.ToObject<string>();
-            string away = requestBody["Away"]?.ToObject<string>();
-            var existingMatch = _matchCollection.Find(match => match.home_team == home && match.away_team==away).FirstOrDefault();
+            var home = requestBody.Home;
+            var away = requestBody.Away;
 
+            if (string.IsNullOrEmpty(home) || string.IsNullOrEmpty(away))
+            {
+                return BadRequest("Invalid 'Home' or 'Away' values");
+            }
+
+            var existingMatch = _matchCollection.Find(match => match.home_team == home && match.away_team == away).FirstOrDefault();
             if (existingMatch == null)
             {
-                return NotFound($"match not found");
+                return NotFound($"Match not found");
             }
 
-            existingMatch.home_team = requestBody["updatedMatch"]["home_team"]?.ToObject<string>();
-            existingMatch.away_team = requestBody["updatedMatch"]["away_team"]?.ToObject<string>();
-            existingMatch.match_venue = requestBody["updatedMatch"]["match_venue"]?.ToObject<string>();
-            var dateValue = requestBody["updatedMatch"]["date_time"]?.ToObject<DateTime?>();
-            existingMatch.date_time = dateValue ?? default(DateTime); 
+            var filter = Builders<Match>.Filter.Eq(match => match.home_team, home) & Builders<Match>.Filter.Eq(match => match.away_team, away);
+            existingMatch.home_team = requestBody.UpdatedMatch.home_team;
+            existingMatch.away_team = requestBody.UpdatedMatch.away_team;
+            existingMatch.match_venue = requestBody.UpdatedMatch.match_venue;
+            existingMatch.date_time = requestBody.UpdatedMatch.date_time;
+            existingMatch.main_referee = requestBody.UpdatedMatch.main_referee;
+            existingMatch.linesman1 = requestBody.UpdatedMatch.linesman1;
+            existingMatch.linesman2 = requestBody.UpdatedMatch.linesman2;
 
+           
+            var updateResult = _matchCollection.ReplaceOne(filter, existingMatch);
 
-            existingMatch.main_referee = requestBody["updatedMatch"]["main_referee"]?.ToObject<string>();
-            existingMatch.linesman1 = requestBody["updatedMatch"]["linesman1"]?.ToObject<string>();
-            existingMatch.linesman2 = requestBody["updatedMatch"]["linesman2"]?.ToObject<string>();
-
-
-
-            TryValidateModel(existingMatch);
-
-            if (!ModelState.IsValid)
+            if (updateResult.ModifiedCount == 1)
             {
-                return BadRequest(ModelState);
+                return Ok(existingMatch);
             }
-
-            return Ok(existingMatch);
+            else
+            {
+                return StatusCode(500, "Error updating the match");
+            }
         }
         catch (Exception ex)
         {
             return StatusCode(500, $"Error: {ex.Message}");
         }
     }
+
+
+    [HttpPost("AddStadium")]
+    public IActionResult AddStadoum([FromBody] Stadium newStadoum)
+    {
+        try
+        {
+            _stadiumCollection.InsertOne(newStadoum);
+            return Ok("Stadium added successfully");
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Error: {ex.Message}");
+        }
+    }
+
+    [HttpGet("ViewMatch/{id}")]
+    public IActionResult ViewMatch(string id)
+    {
+        try
+        {
+            var match = _matchCollection.Find(match => match._id == id).FirstOrDefault();
+
+            if (match == null)
+            {
+                return NotFound($"Match not found with ID: {id}");
+            }
+
+            return Ok(match);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Error: {ex.Message}");
+        }
+    }
+
+
 
 }

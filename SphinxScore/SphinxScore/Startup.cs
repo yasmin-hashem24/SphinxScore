@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using System;
 using MongoDB.Driver;
 using Microsoft.Extensions.Logging;
+using SphinxScore.Models;
 
 namespace SphinxScore
 {
@@ -61,6 +62,16 @@ namespace SphinxScore
                 return collection;
             });
 
+            services.AddScoped<IMongoCollection<Stadium>>(sp =>
+            {
+                var client = sp.GetRequiredService<IMongoClient>();
+                var databaseName = "SphinxScoreDB";
+                var collection = client.GetDatabase(databaseName).GetCollection<Stadium>("stadium");
+
+                var collectionNames = client.GetDatabase(databaseName).ListCollectionNames().ToList();
+
+                return collection;
+            });
 
             // In production, the React files will be served from this directory
 
