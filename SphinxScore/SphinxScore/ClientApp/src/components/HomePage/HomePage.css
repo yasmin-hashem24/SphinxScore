@@ -1,7 +1,6 @@
 .HomePageLayout {
   height: 99%;
   width: 100%;
-
   display: flex;
   flex-direction: row;
 }
@@ -20,7 +19,7 @@
   flex: 1;
 }
 .ActionsCard {
-  background-color: rgb(255, 196, 78);
+  background-color: #ece3ce;
   padding-left: 10%;
   padding-right: 10%;
   padding-bottom: 5%;
@@ -31,11 +30,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .ActionsCard h2 {
-  color: white;
+  color: #3a4d39;
 }
 
 .ButtonsDiv {
@@ -54,15 +53,16 @@
   margin: 4px;
   padding: 4px;
   width: 100%;
-  color: rgb(196, 149, 56);
-  background-color: rgb(245, 240, 228);
+  color: #3a4d39;
+  background-color: #ece3ce;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-  border: 0px;
+  border: 1px solid;
   border-radius: 6px;
+  border-color: #3a4d39;
   transition: background-color 0.3s ease;
 }
 
 .ButtonsDiv button:hover {
-  background-color: rgb(241, 232, 213);
+  background-color: #d4c9ae;
   cursor: pointer;
 }
