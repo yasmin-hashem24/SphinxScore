@@ -32,27 +32,31 @@ function LogInPage() {
           e.preventDefault();
           return false;
       }
-      /*else {
+      else {
           axios
               .post("https://localhost:44345/api/account/login", {
                   username: `${trimmedUsername}`,
                   password: `${trimmedPassword}`
               })
               .then((response) => {
-                  console.log(response)
-                  e.preventDefault();
-                  return false;
+                  console.log(response['data'])
+                  if (!response['data']['isApproved']) {
+                      setHelperUsername("User is not approved");
+                      setErrorUsername(true);
+                  }
+                  else {
+                      if (response['data']['role'] === 'user') {
+                          history.push("/UserPage");
+                      }   
+                  }
               })
               .catch((error) => {
                   console.log(error);
-                  e.preventDefault();
-                  return false;
+                  setHelperUsername("Incorrect username or password");
+                  setErrorUsername(true);
               });
           e.preventDefault();
-          return false;
       }
-      */
-    //history.push("/UserPage");
   }
 
   return (
@@ -78,8 +82,8 @@ function LogInPage() {
             onChange={(e) => setPassword(e.target.value)}
             error={errorPassword}
             helperText={helperPassword}
-          />
-          <button>Log in</button>
+                  />
+           <button type = 'submit'>Log in</button>
         </form>
       </div>
     </div>
