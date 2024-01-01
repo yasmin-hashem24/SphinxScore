@@ -1,10 +1,16 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Amazon.Runtime.Internal.Transform;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualBasic;
 using MongoDB.Driver;
 using Newtonsoft.Json.Linq;
+using SphinxScore.Models;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using static MongoDB.Driver.WriteConcern;
 
 namespace SphinxScore.Controllers;
@@ -32,9 +38,13 @@ before the start of the event.
 The seat/s in the reservation should be vacant again.
      * */
     private readonly IMongoCollection<User> _userCollection;
-    public CustomerController(IMongoCollection<User> userCollection)
+    private readonly IMongoCollection<Match> _matchCollection;
+    private readonly IMongoCollection<Stadium> _stadiumCollection;
+    public CustomerController(IMongoCollection<User> userCollection, IMongoCollection<Match> matchCollection, IMongoCollection<Stadium> staduimCollection)
     {
         _userCollection = userCollection;
+        _matchCollection = matchCollection;
+        _stadiumCollection = staduimCollection;
     }
     [HttpPatch("EditUser")]
     public IActionResult EditUser([FromBody] User ourUser)  // hal acheck en el email el mb3ot mokhtlef 3n el 3ndy fy el db , wla fy el front end msh hys7mlo ygher el email
@@ -51,14 +61,6 @@ The seat/s in the reservation should be vacant again.
                 return NotFound($"User not found");
             }
 
-            //existingUser.birth_date = ourUser.birth_date.Equals("0001 - 01 - 01T00: 00:00") ? existingUser.birth_date : ourUser.birth_date  ;
-            //existingUser.password = ourUser.password != " " ? ourUser.password : existingUser.password;
-            //existingUser.city = ourUser.city != " " ? ourUser.city : existingUser.city;
-            //existingUser.address = ourUser.address != " " ? ourUser.address: existingUser.address;
-            //existingUser.first_name = ourUser.first_name != " " ? ourUser.first_name : existingUser.first_name;
-            //existingUser.last_name = ourUser.last_name != " " ? ourUser.last_name : existingUser.last_name;
-            //existingUser.gender = ourUser.gender != " " ? ourUser.gender : existingUser.gender;
-
             var filter = Builders<User>.Filter.Eq(user => user.username, username);
 
             var update = Builders<User>.Update.Set("password",ourUser.password != " " ? ourUser.password : existingUser.password)
@@ -69,7 +71,6 @@ The seat/s in the reservation should be vacant again.
                 .Set("gender", ourUser.gender != " " ? ourUser.gender : existingUser.gender)
                 .Set("birth_date" , ourUser.birth_date==default(DateTime) ? existingUser.birth_date : ourUser.birth_date);
 
-           // _userCollection.ReplaceOne(filter, existingUser);
             _userCollection.UpdateOne(filter, update);
             TryValidateModel(existingUser);
 
@@ -86,4 +87,58 @@ The seat/s in the reservation should be vacant again.
         }
 
     }
+    [HttpGet("ViewMatch/{id}")]
+    public IActionResult ViewMatchDeatils(string id)
+    {
+        try
+        {
+            var match = _matchCollection.Find(match => match._id == id).FirstOrDefault();
+
+            if (match == null)
+            {
+                return NotFound($"Match not found with ID: {id}");
+            }
+            return Ok(match);
+
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Error: {ex.Message}");
+        }
+    }
+    [HttpGet("ViewVacantSeats/{id}")]
+    public IActionResult ViewVacantSeats(string id)
+    {
+        try
+        {
+            var match = _matchCollection.Find(match => match._id == id).FirstOrDefault();
+            var stadium = _stadiumCollection.Find(stadium =>  stadium.name == match.match_venue).FirstOrDefault();
+            Dictionary<int, List<int>> vacant_seats = new Dictionary<int, List<int>>();
+
+            for (int i = 1; i <= stadium.rows.Count; i++)
+            {
+                List<int> temp=new List<int>();
+                for (int j = 1; j <= stadium.seats_per_row; j++)
+                {
+                    if (stadium.rows[i][j] == "")
+                    {
+                        temp.Add(j);
+                    }
+                }
+                vacant_seats.Add(i, temp);
+            }
+
+            if (match == null)
+            {
+                return NotFound($"Match not found with ID: {id}");
+            }
+            return Ok(vacant_seats);
+
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Error: {ex.Message}");
+        }
+    }
+
 }
