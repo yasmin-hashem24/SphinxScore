@@ -15,10 +15,11 @@ public class Stadium
     public string name { get; set; }
     [Required(ErrorMessage = "Stadium location is required")]
     public string location { get; set; }
-    //[Required(ErrorMessage = "number of rows is required")]
-    //public int rows { get; set; }
+    [Required(ErrorMessage = "number of rows is required")]
+    public int rows { get; set; }
+
     [Required(ErrorMessage = "number of seats per row is required")]
     public int seats_per_row { get; set; }
-    public Dictionary<int, Dictionary<int,string>> rows { get; set; }
+    public Dictionary<int, Dictionary<int,string>> seats { get; set; }
 
 }

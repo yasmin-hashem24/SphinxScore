@@ -115,12 +115,12 @@ The seat/s in the reservation should be vacant again.
             var stadium = _stadiumCollection.Find(stadium =>  stadium.name == match.match_venue).FirstOrDefault();
             Dictionary<int, List<int>> vacant_seats = new Dictionary<int, List<int>>();
 
-            for (int i = 1; i <= stadium.rows.Count; i++)
+            for (int i = 1; i <= stadium.seats.Count; i++)
             {
                 List<int> temp=new List<int>();
                 for (int j = 1; j <= stadium.seats_per_row; j++)
                 {
-                    if (stadium.rows[i][j] == "")
+                    if (stadium.seats[i][j] == "")
                     {
                         temp.Add(j);
                     }
