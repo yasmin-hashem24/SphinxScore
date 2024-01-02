@@ -2,6 +2,7 @@
 using MongoDB.Bson;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 
 namespace SphinxScore;
 
@@ -43,4 +44,6 @@ public class User
 
     public bool IsApproved { get; set; } = false;
     public bool IsAdmin { get; set; } = false;
+
+    public List<string> ReservedMatchIds { get; set; } = new List<string>();
 }
