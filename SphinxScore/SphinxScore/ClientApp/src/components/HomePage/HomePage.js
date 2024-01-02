@@ -20,6 +20,9 @@ function HomePage() {
             </Link>
             <Link to="/LogInPage">
               <button>Log in</button>
+             </Link>
+            <Link to="/GuestPage">
+                <button>View Matches</button>
             </Link>
           </div>
         </div>
