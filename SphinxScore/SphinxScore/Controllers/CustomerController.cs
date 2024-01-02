@@ -111,7 +111,7 @@ The seat/s in the reservation should be vacant again.
             return StatusCode(500, $"Error: {ex.Message}");
         }
     }
-    [HttpGet("ViewVacantSeats/{id}")]
+    /*[HttpGet("ViewVacantSeats/{id}")]
     public IActionResult ViewVacantSeats(string id)
     {
         try
@@ -146,7 +146,7 @@ The seat/s in the reservation should be vacant again.
         }
     }
 
-
+    */
 
     [HttpPost("CancelReservation/{ticketId}")]
     public IActionResult CancelReservation(string ticketId)
@@ -192,7 +192,7 @@ The seat/s in the reservation should be vacant again.
         }
     }
 
-    [HttpPost("ReserveVacantSeats/{matchId}")]
+    /*[HttpPost("ReserveVacantSeats/{matchId}")]
     public IActionResult ReserveVacantSeats(string matchId, [FromBody] Seat reservationRequest)
     {
         try
@@ -248,7 +248,42 @@ The seat/s in the reservation should be vacant again.
             return StatusCode(500, $"Error: {ex.Message}");
         }
     }
+    */
 
+    [HttpGet("ViewReservedOrNotMatch/{user_id}")]
+    public IActionResult ViewReservedOrNotMatch(string user_id)
+    {
+        try
+        {
+            var filter = Builders<User>.Filter.Eq(u => u.Id, user_id);
+            var ourUser = _userCollection.Find(filter).FirstOrDefault();
 
+            if (ourUser == null)
+            {
+                return NotFound($"User with ID {user_id} not found.");
+            }
+
+            var reservedMatches = ourUser.ReservedMatchIds;
+            var allMatches = _matchCollection.Find(_ => true).ToList();
+
+           
+            var matchesWithReservationStatus = allMatches.Select(match =>
+            {
+                bool isReserved = reservedMatches.Contains(match._id);
+                return new
+                {
+                    TheMatch= match,
+                   
+                    IsReserved = isReserved
+                };
+            }).ToList();
+
+            return Ok(matchesWithReservationStatus);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Error: {ex.Message}");
+        }
+    }
 
 }
