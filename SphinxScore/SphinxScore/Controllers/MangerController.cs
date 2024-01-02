@@ -127,25 +127,7 @@ public class MangerController : ControllerBase
         }
     }
 
-    [HttpGet("ViewMatch/{id}")]
-    public IActionResult ViewMatch(string id)
-    {
-        try
-        {
-            var match = _matchCollection.Find(match => match._id == id).FirstOrDefault();
-
-            if (match == null)
-            {
-                return NotFound($"Match not found with ID: {id}");
-            }
-
-            return Ok(match);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, $"Error: {ex.Message}");
-        }
-    }
+   
 
 
     

@@ -76,25 +76,7 @@ public class CustomerController : ControllerBase
         }
 
     }
-    [HttpGet("ViewMatch/{id}")]
-    public IActionResult ViewMatchDeatils(string id)
-    {
-        try
-        {
-            var match = _matchCollection.Find(match => match._id == id).FirstOrDefault();
-
-            if (match == null)
-            {
-                return NotFound($"Match not found with ID: {id}");
-            }
-            return Ok(match);
-
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, $"Error: {ex.Message}");
-        }
-    }
+  
     [HttpGet("ViewVacantSeats/{id}")]
     public IActionResult ViewVacantSeats(string id)
     {
@@ -181,7 +163,7 @@ public class CustomerController : ControllerBase
     {
         try
         {
-
+            string user_id = HttpContext.Session.GetString("UserId");
             var match = _matchCollection.Find(m => m._id == matchId).FirstOrDefault();
             if (match == null)
             {
@@ -206,7 +188,7 @@ public class CustomerController : ControllerBase
                 return BadRequest("Invalid seat numbers provided.");
             }
 
-            if (stadium.seats[reservationRequest.row][reservationRequest.seat_num] != "")
+            if (stadium.seats[reservationRequest.row][reservationRequest.seat_num] != "vacant")
             {
                 return BadRequest("Selected seats are not vacant.");
             }
@@ -224,6 +206,10 @@ public class CustomerController : ControllerBase
               
             };
             _ticketCollection.InsertOne(newTicket);
+            var userFilter = Builders<User>.Filter.Eq(u => u.Id, user_id);
+            var userUpdate = Builders<User>.Update.AddToSet(u => u.ReservedMatchIds, matchId);
+            _userCollection.UpdateOne(userFilter, userUpdate);
+
 
             return Ok("reservation made successfully");
         }
