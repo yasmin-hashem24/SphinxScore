@@ -47,7 +47,7 @@ function LogInPage() {
                   else {
                       if (response['data']['user']['role'] === 'fan') {
                           localStorage.setItem("token", response['data']['token']);
-                          history.push("/UserPage");
+                          history.push("/FanPage");
                       }   
                       else if (response['data']['user']['role'] === 'admin') {
                           localStorage.setItem("token", response['data']['token']);

@@ -57,7 +57,7 @@ function GuestPage() {
     }
     return (
         <div className="GuestPageLayout">
-            <TopBar />
+            <TopBar user='guest'/>
             <h2>Users</h2>
             <div className="AllGuests">
                 {matches.map(mapMatches)}
