@@ -6,6 +6,7 @@ import UserPage from "./components/UserPage/UserPage";
 import ReviewPage from "./components/SignUpPage/ReviewPage"
 import AdminPage from "./components/AdminPage/AdminPage";
 import GuestPage from "./components/GuestPage/GuestPage";
+import FanPage from "./components/FanPage/FanPage"
 import "./App.css";
 import { Route } from "react-router-dom";
 import { Switch } from "react-router-dom";
@@ -22,6 +23,7 @@ function App() {
               <Route path="/ReviewPage" component={ReviewPage} />
               <Route path="/AdminPage" component={AdminPage} />
               <Route path="/GuestPage" component={GuestPage} />
+              <Route path="/FanPage" component={FanPage} />
           </Switch>
       </BrowserRouter>
   );

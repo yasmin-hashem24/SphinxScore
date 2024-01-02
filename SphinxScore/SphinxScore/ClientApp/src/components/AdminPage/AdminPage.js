@@ -112,7 +112,7 @@ function AdminPage() {
     }
     return (
         <div className="AdminPageLayout">
-            <TopBar />
+            <TopBar user='admin'/>
             <h2>Users</h2>
             <div className="AllUsers">
                 {nonApprovedUsers.map(mapUsers)}
