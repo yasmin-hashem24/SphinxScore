@@ -1,9 +1,9 @@
-﻿.AdminPageLayout {
+﻿.MatchesLayout {
   height: 100%;
   margin: 2px;
 }
 
-.AdminPageLayout h2 {
+.MatchesLayout h2 {
   color: #ece3ce;
 }
 .AllMatches {

@@ -13,7 +13,7 @@ import MenuItem from "@mui/material/MenuItem";
 
 // Array of pages for navigation menu
 import { Link } from "react-router-dom";
-const pages = ["Matches", "MyMatches"];
+const pages = ["FanPage", "MyMatches", "EditProfile"];
 
 /**
  * Represents a responsive app bar component with menus.
@@ -23,6 +23,12 @@ function TopMenu() {
   // State variables for anchor elements of navigation and user menus
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+
+  const pageNames = {
+    FanPage: "Home",
+    MyMatches: "My Matches",
+    EditProfile: "Edit Profile",
+  };
 
   // Event handler for opening navigation menu
   const handleOpenNavMenu = (event) => {
@@ -95,7 +101,7 @@ function TopMenu() {
                       textAlign="center"
                       sx={{ fontFamily: "sans-serif" }}
                     >
-                      {page}
+                      {pageNames[page]}
                     </Typography>
                   </Link>
                 </MenuItem>
@@ -147,7 +153,7 @@ function TopMenu() {
                     fontFamily: "sans-serif",
                   }}
                 >
-                  {page}
+                  {pageNames[page]}
                 </Button>
               </Link>
             ))}

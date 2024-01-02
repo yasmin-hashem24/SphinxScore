@@ -57,9 +57,15 @@ G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\AWSSDK
 G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\AWSSDK.SecurityToken.dll
 G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\DnsClient.dll
 G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\EdgeDB.Net.Driver.dll
+G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\Microsoft.AspNetCore.NodeServices.dll
 G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\Microsoft.AspNetCore.SpaServices.dll
 G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\Microsoft.AspNetCore.SpaServices.Extensions.dll
+G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\Microsoft.IdentityModel.JsonWebTokens.dll
+G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\Microsoft.IdentityModel.Logging.dll
+G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.dll
+G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\Microsoft.IdentityModel.Tokens.dll
 G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\MongoDB.Bson.dll
 G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\MongoDB.Driver.dll
 G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\MongoDB.Driver.Core.dll
@@ -67,6 +73,7 @@ G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\MongoD
 G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\Newtonsoft.Json.dll
 G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\SharpCompress.dll
 G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\Snappier.dll
+G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\System.IdentityModel.Tokens.Jwt.dll
 G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\ZstdSharp.dll
 G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\runtimes\linux\native\libmongocrypt.so
 G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\runtimes\osx\native\libmongocrypt.dylib
@@ -95,10 +102,3 @@ G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\obj\Debug\net7.0\refint
 G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\obj\Debug\net7.0\SphinxScore.pdb
 G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\obj\Debug\net7.0\SphinxScore.genruntimeconfig.cache
 G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\obj\Debug\net7.0\ref\SphinxScore.dll
-G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
-G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\Microsoft.IdentityModel.JsonWebTokens.dll
-G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\Microsoft.IdentityModel.Logging.dll
-G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.dll
-G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
-G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\Microsoft.IdentityModel.Tokens.dll
-G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\System.IdentityModel.Tokens.Jwt.dll

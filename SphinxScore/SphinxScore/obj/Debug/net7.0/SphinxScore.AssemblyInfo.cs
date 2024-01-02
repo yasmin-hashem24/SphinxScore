@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SphinxScore")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+08f9bb248a9453313b26d739090c76bbffa25892")]
 [assembly: System.Reflection.AssemblyProductAttribute("SphinxScore")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SphinxScore")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

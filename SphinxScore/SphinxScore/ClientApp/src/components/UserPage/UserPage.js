@@ -10,15 +10,14 @@ import {
   MDBTypography,
 } from "mdb-react-ui-kit";
 
-import HeaderMenu from "../TopBar/HeaderMenu";
-import dayjs from "dayjs";
+import TopMenu from "../TopBar/TopMenu";
 
 export default function UserPage() {
   return (
     <div>
       <div>
         {/* Render the HeaderMenu component */}
-        <HeaderMenu />
+        <TopMenu />
       </div>
       <div
         style={{
