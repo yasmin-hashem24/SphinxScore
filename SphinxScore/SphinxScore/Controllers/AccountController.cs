@@ -119,6 +119,30 @@ public class AccountController : ControllerBase
         }
     }
 
+
+
+
+    [HttpGet("ViewMatches")]
+    public IActionResult ViewMatches()
+    {
+        try
+        {
+
+            var matches = _matchCollection.Find(_ => true).ToList();
+
+            if (matches.Count==0)
+            {
+                return NotFound($"No Matches Found");
+            }
+
+            return Ok(matches);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Error: {ex.Message}");
+        }
+    }
+
     [HttpGet("ViewMatch/{id}")]
     public IActionResult ViewMatch(string id)
     {
