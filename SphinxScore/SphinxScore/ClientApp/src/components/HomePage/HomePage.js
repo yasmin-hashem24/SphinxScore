@@ -21,6 +21,12 @@ function HomePage() {
             <Link to="/LogInPage">
               <button>Log in</button>
             </Link>
+            <Link to="/UserPage">
+              <button>User Page</button>
+            </Link>
+            <Link to="/AdminPage">
+              <button>Admin Page</button>
+            </Link>
           </div>
         </div>
       </div>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./SignUpPage.css";
 import { TextField } from "@mui/material";
-import { useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 import { DatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -91,95 +91,94 @@ function SignUpPage() {
     const trimmedLastName = lastName.trimEnd().trimStart();
     const trimmedEmail = email.trimEnd().trimStart();
 
-
-      if (trimmedUsername === "") {
-          setHelperUsername("Please enter your username.");
-          setErrorUsername(true);
-          setHelperPassword("");
-          setErrorPassword(false);
-          e.preventDefault();
-          return false;
-      } else if (trimmedPassword === "") {
-          setHelperPassword("Please enter your password.");
-          setErrorPassword(true);
-          setHelperUsername("");
-          setErrorUsername(false);
-          e.preventDefault();
-          return false;
-      } else if (trimmedFirstName === "") {
-          setHelperFirstName("please enter your first name.");
-          setErrorFirstName(true);
-          setHelperPassword("");
-          setErrorPassword(false);
-          setHelperUsername("");
-          setErrorUsername(false);
-          e.preventDefault();
-          return false;
-      } else if (trimmedLastName === "") {
-          setHelperLastName("please enter your Last name.");
-          setErrorLastName(true);
-          setHelperFirstName("");
-          setErrorFirstName(false);
-          setHelperPassword("");
-          setErrorPassword(false);
-          setHelperUsername("");
-          setErrorUsername(false);
-          e.preventDefault();
-          return false;
-      } else if (city === "") {
-          setHelperCity("Please enter city.");
-          setErrorCity(true);
-          setHelperLastName("");
-          setErrorLastName(false);
-          setHelperFirstName("");
-          setErrorFirstName(false);
-          setHelperPassword("");
-          setErrorPassword(false);
-          setHelperUsername("");
-          setErrorUsername(false);
-          e.preventDefault();
-          return false;
-      } else if (trimmedEmail === "") {
-          setHelperEmail("Please enter email.");
-          setErrorEmail(true);
-          setHelperCity("");
-          setErrorCity(false);
-          setHelperLastName("");
-          setErrorLastName(false);
-          setHelperFirstName("");
-          setErrorFirstName(false);
-          setHelperPassword("");
-          setErrorPassword(false);
-          setHelperUsername("");
-          setErrorUsername(false);
-          e.preventDefault();
-          return false;
-      } else {
-          const newDate =
-              date.format("YYYY") + "-" + date.format("MM") + "-" + date.format("DD");
-          axios
-              .post("https://localhost:44345/api/account/SignUp", {
-                  username: `${trimmedUsername}`,
-                  password: `${trimmedPassword}`,
-                  first_name: `${trimmedFirstName}`,
-                  last_name: `${trimmedLastName}`,
-                  birth_date: `${newDate}`, // Use an actual date in ISO format
-                  gender: `${gender}`,
-                  city: `${city}`,
-                  address: `${address}`,
-                  email_address: `${trimmedEmail}`,
-                  role: `${role}`
-              })
-              .then((response) => {
-                  history.push('/ReviewPage')
-              })
-              .catch((error) => {
-                  console.log(error);
-                  setHelperUsername("Username taken. Please pick another username.");
-                  setErrorUsername(true);
-              });
-      }
+    if (trimmedUsername === "") {
+      setHelperUsername("Please enter your username.");
+      setErrorUsername(true);
+      setHelperPassword("");
+      setErrorPassword(false);
       e.preventDefault();
+      return false;
+    } else if (trimmedPassword === "") {
+      setHelperPassword("Please enter your password.");
+      setErrorPassword(true);
+      setHelperUsername("");
+      setErrorUsername(false);
+      e.preventDefault();
+      return false;
+    } else if (trimmedFirstName === "") {
+      setHelperFirstName("please enter your first name.");
+      setErrorFirstName(true);
+      setHelperPassword("");
+      setErrorPassword(false);
+      setHelperUsername("");
+      setErrorUsername(false);
+      e.preventDefault();
+      return false;
+    } else if (trimmedLastName === "") {
+      setHelperLastName("please enter your Last name.");
+      setErrorLastName(true);
+      setHelperFirstName("");
+      setErrorFirstName(false);
+      setHelperPassword("");
+      setErrorPassword(false);
+      setHelperUsername("");
+      setErrorUsername(false);
+      e.preventDefault();
+      return false;
+    } else if (city === "") {
+      setHelperCity("Please enter city.");
+      setErrorCity(true);
+      setHelperLastName("");
+      setErrorLastName(false);
+      setHelperFirstName("");
+      setErrorFirstName(false);
+      setHelperPassword("");
+      setErrorPassword(false);
+      setHelperUsername("");
+      setErrorUsername(false);
+      e.preventDefault();
+      return false;
+    } else if (trimmedEmail === "") {
+      setHelperEmail("Please enter email.");
+      setErrorEmail(true);
+      setHelperCity("");
+      setErrorCity(false);
+      setHelperLastName("");
+      setErrorLastName(false);
+      setHelperFirstName("");
+      setErrorFirstName(false);
+      setHelperPassword("");
+      setErrorPassword(false);
+      setHelperUsername("");
+      setErrorUsername(false);
+      e.preventDefault();
+      return false;
+    } else {
+      const newDate =
+        date.format("YYYY") + "-" + date.format("MM") + "-" + date.format("DD");
+      axios
+        .post("https://localhost:44345/api/account/SignUp", {
+          username: `${trimmedUsername}`,
+          password: `${trimmedPassword}`,
+          first_name: `${trimmedFirstName}`,
+          last_name: `${trimmedLastName}`,
+          birth_date: `${newDate}`, // Use an actual date in ISO format
+          gender: `${gender}`,
+          city: `${city}`,
+          address: `${address}`,
+          email_address: `${trimmedEmail}`,
+          role: `${role}`,
+        })
+        .then((response) => {
+          history.push("/ReviewPage");
+        })
+        .catch((error) => {
+          console.log(error);
+          setHelperUsername("Username taken. Please pick another username.");
+          setErrorUsername(true);
+        });
+    }
+    e.preventDefault();
   }
 
   function mapCities(city) {

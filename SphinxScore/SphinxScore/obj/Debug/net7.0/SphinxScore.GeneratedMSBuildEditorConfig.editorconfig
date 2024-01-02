@@ -9,17 +9,19 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = SphinxScore
 build_property.RootNamespace = SphinxScore
-build_property.ProjectDir = C:\Users\Lenovo\Desktop\SphinxScore\SphinxScore\SphinxScore\
+build_property.ProjectDir = G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 7.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\Lenovo\Desktop\SphinxScore\SphinxScore\SphinxScore
+build_property.MSBuildProjectDirectory = G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/Lenovo/Desktop/SphinxScore/SphinxScore/SphinxScore/Pages/Error.cshtml]
+[G:/Sem9/Consultation/SphinxScore/SphinxScore/SphinxScore/Pages/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Lenovo/Desktop/SphinxScore/SphinxScore/SphinxScore/Pages/_ViewImports.cshtml]
+[G:/Sem9/Consultation/SphinxScore/SphinxScore/SphinxScore/Pages/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
