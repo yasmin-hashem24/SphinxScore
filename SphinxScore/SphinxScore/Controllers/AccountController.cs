@@ -183,4 +183,19 @@ public class AccountController : ControllerBase
             return StatusCode(500, $"Error: {ex.Message}");
         }
     }
+
+    [HttpPost("Logout")]
+    public IActionResult Logout()
+    {
+        try
+        {
+            HttpContext.Session.Clear();
+
+            return Ok("Logout successful");
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Error: {ex.Message}");
+        }
+    }
 }
