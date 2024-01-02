@@ -9,7 +9,9 @@ public class Match
 {
     [BsonId]
     [BsonRepresentation(BsonType.ObjectId)]
+
     public string _id { get; set; }
+
     [Required(ErrorMessage = "Home team is required")]
     public string home_team { get; set; } = " ";
     [Required(ErrorMessage = "Away team is required")]
