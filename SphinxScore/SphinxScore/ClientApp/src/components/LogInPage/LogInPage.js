@@ -40,15 +40,17 @@ function LogInPage() {
               })
               .then((response) => {
                   console.log(response['data'])
-                  if (!response['data']['isApproved']) {
+                  if (!response['data']['user']['isApproved']) {
                       setHelperUsername("User is not approved");
                       setErrorUsername(true);
                   }
                   else {
-                      if (response['data']['role'] === 'user') {
+                      if (response['data']['user']['role'] === 'fan') {
+                          localStorage.setItem("token", response['data']['token']);
                           history.push("/UserPage");
                       }   
-                      else if (response['data']['role'] === 'admin') {
+                      else if (response['data']['user']['role'] === 'admin') {
+                          localStorage.setItem("token", response['data']['token']);
                           history.push("/AdminPage");
                       } 
                   }

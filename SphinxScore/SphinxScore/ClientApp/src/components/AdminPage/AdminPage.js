@@ -8,10 +8,13 @@ function AdminPage() {
     const [nonApprovedUsers, setNonApprovedUsers] = useState([]);
     const [approvedUsers, setApprovedUsers] = useState([]);
     const [handleButton, setHandleButton] = useState(false);
+    const token = localStorage.getItem("token")
+    console.log("token = ");
+    console.log(token);
     React.useEffect(() => {
         (async () => {
             await axios
-                .get("https://localhost:44345/api/admin/NonApprovedUsers")
+                .get("https://localhost:44345/api/admin/NonApprovedUsers", { headers: { Authorization: `bearer ${token}` } })
                 .then((response) => {
                     setNonApprovedUsers(response.data);
                 })
@@ -21,7 +24,7 @@ function AdminPage() {
         })();
         (async () => {
             await axios
-                .get("https://localhost:44345/api/admin/ApprovedUsers")
+                .get("https://localhost:44345/api/admin/ApprovedUsers", { headers: { Authorization: `bearer ${token}` } })
                 .then((response) => {
                     setApprovedUsers(response.data);
                 })
@@ -32,7 +35,7 @@ function AdminPage() {
     }, [handleButton]);
 
     function handleApproval(e) {
-        axios.patch(`https://localhost:44345/api/admin/ApproveUser/${e.target.dataset.userId}`)
+        axios.patch(`https://localhost:44345/api/admin/ApproveUser/${e.target.dataset.userId}`, null, { headers: { Authorization: `bearer ${token}` } })
             .then(response => {
                 console.log('Patch successful:', response.data);
                 if (handleButton) {
@@ -46,7 +49,8 @@ function AdminPage() {
             });
     }
     function handleRemoval(e) {
-        axios.delete(`https://localhost:44345/api/admin/DeleteUser/${e.target.dataset.userId}`)
+
+        axios.delete(`https://localhost:44345/api/admin/DeleteUser/${e.target.dataset.userId}`, { headers: { Authorization: `bearer ${token}` } })
             .then(response => {
                 if (handleButton) {
                     setHandleButton(false)
