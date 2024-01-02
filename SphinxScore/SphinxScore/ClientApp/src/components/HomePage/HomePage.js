@@ -21,11 +21,16 @@ function HomePage() {
             <Link to="/LogInPage">
               <button>Log in</button>
             </Link>
+<<<<<<< Updated upstream
             <Link to="/UserPage">
               <button>User Page</button>
             </Link>
             <Link to="/AdminPage">
               <button>Admin Page</button>
+=======
+            <Link to="/PayReservation">
+              <button>Pay Reservation</button>
+>>>>>>> Stashed changes
             </Link>
           </div>
         </div>

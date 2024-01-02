@@ -46,6 +46,7 @@ C:\Users\Lenovo\Desktop\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\Zst
 C:\Users\Lenovo\Desktop\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\runtimes\linux\native\libmongocrypt.so
 C:\Users\Lenovo\Desktop\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\runtimes\osx\native\libmongocrypt.dylib
 C:\Users\Lenovo\Desktop\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\runtimes\win\native\mongocrypt.dll
+<<<<<<< Updated upstream
 G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\appsettings.Development.json
 G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\appsettings.json
 G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\SphinxScore.exe
@@ -78,6 +79,8 @@ G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\ZstdSh
 G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\runtimes\linux\native\libmongocrypt.so
 G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\runtimes\osx\native\libmongocrypt.dylib
 G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\runtimes\win\native\mongocrypt.dll
+=======
+>>>>>>> Stashed changes
 G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\obj\Debug\net7.0\SphinxScore.csproj.AssemblyReference.cache
 G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\obj\Debug\net7.0\SphinxScore.GeneratedMSBuildEditorConfig.editorconfig
 G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\obj\Debug\net7.0\SphinxScore.AssemblyInfoInputs.cache
@@ -88,6 +91,7 @@ G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\obj\Debug\net7.0\Sphinx
 G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\obj\Debug\net7.0\SphinxScore.RazorAssemblyInfo.cache
 G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\obj\Debug\net7.0\SphinxScore.RazorAssemblyInfo.cs
 G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\obj\Debug\net7.0\SphinxScore.sourcelink.json
+<<<<<<< Updated upstream
 G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\obj\Debug\net7.0\staticwebassets.build.json
 G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\obj\Debug\net7.0\staticwebassets.development.json
 G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\obj\Debug\net7.0\staticwebassets\msbuild.SphinxScore.Microsoft.AspNetCore.StaticWebAssets.props
@@ -102,3 +106,8 @@ G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\obj\Debug\net7.0\refint
 G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\obj\Debug\net7.0\SphinxScore.pdb
 G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\obj\Debug\net7.0\SphinxScore.genruntimeconfig.cache
 G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\obj\Debug\net7.0\ref\SphinxScore.dll
+=======
+G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\obj\Debug\net7.0\SphinxScore.dll
+G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\obj\Debug\net7.0\refint\SphinxScore.dll
+G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\obj\Debug\net7.0\SphinxScore.pdb
+>>>>>>> Stashed changes
