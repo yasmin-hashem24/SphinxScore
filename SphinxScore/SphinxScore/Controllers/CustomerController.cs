@@ -40,13 +40,11 @@ The seat/s in the reservation should be vacant again.
     private readonly IMongoCollection<User> _userCollection;
     private readonly IMongoCollection<Match> _matchCollection;
     private readonly IMongoCollection<Stadium> _stadiumCollection;
-    private readonly IMongoCollection<Tickets> _ticketCollection;
-    public CustomerController(IMongoCollection<User> userCollection, IMongoCollection<Match> matchCollection, IMongoCollection<Stadium> staduimCollection, IMongoCollection<Tickets> ticketCollection)
+    public CustomerController(IMongoCollection<User> userCollection, IMongoCollection<Match> matchCollection, IMongoCollection<Stadium> staduimCollection)
     {
         _userCollection = userCollection;
         _matchCollection = matchCollection;
         _stadiumCollection = staduimCollection;
-        _ticketCollection = ticketCollection;
     }
     [HttpPatch("EditUser")]
     public IActionResult EditUser([FromBody] User ourUser)  // hal acheck en el email el mb3ot mokhtlef 3n el 3ndy fy el db , wla fy el front end msh hys7mlo ygher el email
@@ -142,54 +140,5 @@ The seat/s in the reservation should be vacant again.
             return StatusCode(500, $"Error: {ex.Message}");
         }
     }
-
-   
-
-    [HttpPost("CancelReservation/{ticketId}")]
-    public IActionResult CancelReservation (string ticketId)
-    {
-        try
-        {
-            Tickets ticket = _ticketCollection.Find(ticket => ticket._id == ticketId).FirstOrDefault();
-            
-            
-            Match match=_matchCollection.Find(match => match._id == ticket.MatchId).FirstOrDefault();
-            
-            
-            if(match.date_time >= DateTime.Now.AddDays(3))
-            {
-                
-                Stadium stadium = _stadiumCollection.Find(stadium => stadium.name == match.match_venue).FirstOrDefault();
-                //update the seat
-                var filterStadium = Builders<Stadium>.Filter.Eq(stadium_temp => stadium_temp._id, stadium._id );
-                var update = Builders<Stadium>.Update.Set($"seats.{ticket.row}.{ticket.seat}", "");
-                _stadiumCollection.UpdateOne(filterStadium, update);
-
-                //delete ticket
-                var filter = Builders<Tickets>.Filter.Eq(ticket => ticket._id, ticketId);
-                _ticketCollection.DeleteOne(filter);
-
-
-            }
-        
-            else
-            {
-                return Content($"Ticket can't be deleted before the match by {match.date_time - DateTime.Now} only ");
-            }
-                         
-
-            if (ticket == null)
-            {
-                return NotFound($"Match not found with ID: {ticketId}");
-            }
-
-            return Ok();
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, $"Error: {ex.Message}");
-        }
-    }
-
 
 }
