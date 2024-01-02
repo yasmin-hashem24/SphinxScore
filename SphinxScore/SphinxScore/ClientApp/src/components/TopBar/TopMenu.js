@@ -13,13 +13,13 @@ import MenuItem from "@mui/material/MenuItem";
 
 // Array of pages for navigation menu
 import { Link } from "react-router-dom";
-const pages = ["Matches", "EditProfile"];
+const pages = ["Matches", "MyMatches"];
 
 /**
  * Represents a responsive app bar component with menus.
  * @returns {JSX.Element} The JSX element representing the responsive app bar.
  */
-function ResponsiveAppBar() {
+function TopMenu() {
   // State variables for anchor elements of navigation and user menus
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -29,28 +29,15 @@ function ResponsiveAppBar() {
     setAnchorElNav(event.currentTarget);
   };
 
-  // Event handler for opening user menu
-  // const handleOpenUserMenu = (event) => {
-  //   setAnchorElUser(event.currentTarget);
-  // };
-
   // Event handler for closing navigation menu
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
 
-  // Event handler for closing user menu
-  // const handleCloseUserMenu = () => {
-  //   setAnchorElUser(null);
-  // };
-
   return (
     <AppBar position="static" sx={{ backgroundColor: "#3A4D39" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          {/* Logo */}
-          {/* <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} /> */}
-
           {/* Title */}
           <Typography
             variant="h6"
@@ -171,4 +158,4 @@ function ResponsiveAppBar() {
   );
 }
 
-export default ResponsiveAppBar;
+export default TopMenu;

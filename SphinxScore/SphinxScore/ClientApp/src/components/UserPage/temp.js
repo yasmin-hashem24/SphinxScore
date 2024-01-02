@@ -14,6 +14,41 @@ import HeaderMenu from "../TopBar/HeaderMenu";
 import dayjs from "dayjs";
 
 export default function UserPage() {
+  const [firstName, getFirstName] = useState("yasmeen");
+  const [lastName, getLastName] = useState("zaki");
+  const [username, getUsername] = useState("yasmiinezaki");
+  const [email, getEmail] = useState("nossair101@gmail.com");
+  const [date, getDate] = useState(dayjs());
+  const [gender, getGender] = useState("male");
+  const [city, getCity] = useState("Cairo");
+  const [address, getAddress] = useState("Malaksh Da3wa");
+
+  function HandleRetrieval(e) {
+    e.preventDefault();
+
+    axios
+      .get(`https://localhost:44345/api/account/${username}`) // replace with your API endpoint
+      .then((response) => {
+        const user = response.data;
+        getFirstName(user.first_name);
+        getLastName(user.last_name);
+        getUsername(user.username);
+        getEmail(user.email_address);
+        getDate(dayjs(user.birth_date));
+        getGender(user.gender);
+        getCity(user.city);
+        getAddress(user.address);
+      })
+      .catch((error) => {
+        console.log(error);
+        // handle error
+      });
+  }
+
+  useEffect(() => {
+    HandleRetrieval();
+  }, []);
+
   return (
     <div>
       <div>
@@ -44,16 +79,7 @@ export default function UserPage() {
             justifyContent: "center",
           }}
         >
-          <MDBContainer
-            className="container py-5 h-100"
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              textAlign: "center",
-              width: "100%",
-            }}
-          >
+          <MDBContainer className="container py-5 h-100">
             <MDBRow className="justify-content-center align-items-center h-100">
               <MDBCol md="12" xl="4">
                 <MDBCard style={{ borderRadius: "15px" }}>
@@ -69,12 +95,14 @@ export default function UserPage() {
                     </div>
 
                     {/* Render the user's first name and last name */}
-                    <MDBTypography tag="h4">Yasmeen Zaki</MDBTypography>
+                    <MDBTypography tag="h4">
+                      {firstName + " " + lastName}
+                    </MDBTypography>
 
                     {/* Render the user's occupation and website */}
                     <MDBCardText className="text-muted mb-4">
-                      yasmiinezaki <span className="mx-2">|</span>{" "}
-                      <a href="#!">nossair101@gmail.com</a>
+                      {username} <span className="mx-2">|</span>{" "}
+                      <a href="#!">{email}</a>
                     </MDBCardText>
                     {/* Render the "Message now" button */}
 
@@ -84,10 +112,7 @@ export default function UserPage() {
                         <MDBCardText className="small text-muted mb-0">
                           Date of Birth:
                         </MDBCardText>
-                        <MDBCardText className="mb-1 h5">
-                          {" "}
-                          21/8/2001{" "}
-                        </MDBCardText>
+                        <MDBCardText className="mb-1 h5">{date}</MDBCardText>
                       </div>
 
                       {/* Render the user's number of followers */}
@@ -95,7 +120,7 @@ export default function UserPage() {
                         <MDBCardText className="small text-muted mb-0">
                           Gender:
                         </MDBCardText>
-                        <MDBCardText className="mb-1 h5">Female</MDBCardText>
+                        <MDBCardText className="mb-1 h5">{gender}</MDBCardText>
                       </div>
 
                       {/* Render the user's total transactions */}
@@ -103,7 +128,7 @@ export default function UserPage() {
                         <MDBCardText className="small text-muted mb-0">
                           City:
                         </MDBCardText>
-                        <MDBCardText className="mb-1 h5">Cairo</MDBCardText>
+                        <MDBCardText className="mb-1 h5">{city}</MDBCardText>
                       </div>
                     </div>
 
@@ -112,9 +137,7 @@ export default function UserPage() {
                       <MDBCardText className="small text-muted mb-0">
                         Address:
                       </MDBCardText>
-                      <MDBCardText className="mb-1 h5">
-                        Malaksh Da3wa
-                      </MDBCardText>
+                      <MDBCardText className="mb-1 h5">{address}</MDBCardText>
                     </div>
                   </MDBCardBody>
                 </MDBCard>

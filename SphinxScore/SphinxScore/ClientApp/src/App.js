@@ -6,7 +6,8 @@ import UserPage from "./components/UserPage/UserPage";
 import ReviewPage from "./components/SignUpPage/ReviewPage";
 import AdminPage from "./components/AdminPage/AdminPage";
 import EditProfile from "./components/EditProfile/EditProfile";
-import AllMatchDetails from "./components/AllMatchDetails/AllMatchDetails";
+import Matches from "./components/Matches/Matches";
+import MyMatches from "./components/Matches/MyMatches";
 import "./App.css";
 import { Route } from "react-router-dom";
 import { Switch } from "react-router-dom";
@@ -23,7 +24,8 @@ function App() {
         <Route path="/ReviewPage" component={ReviewPage} />
         <Route path="/AdminPage" component={AdminPage} />
         <Route path="/EditProfile" component={EditProfile} />
-        <Route path="/AllMatchDetails" component={AllMatchDetails} />
+        <Route path="/Matches" component={Matches} />
+        <Route path="/MyMatches" component={MyMatches} />
       </Switch>
     </BrowserRouter>
   );

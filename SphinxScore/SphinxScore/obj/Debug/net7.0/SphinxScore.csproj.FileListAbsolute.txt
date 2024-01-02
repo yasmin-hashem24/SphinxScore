@@ -95,3 +95,10 @@ G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\obj\Debug\net7.0\refint
 G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\obj\Debug\net7.0\SphinxScore.pdb
 G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\obj\Debug\net7.0\SphinxScore.genruntimeconfig.cache
 G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\obj\Debug\net7.0\ref\SphinxScore.dll
+G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\Microsoft.IdentityModel.JsonWebTokens.dll
+G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\Microsoft.IdentityModel.Logging.dll
+G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.dll
+G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\Microsoft.IdentityModel.Tokens.dll
+G:\Sem9\Consultation\SphinxScore\SphinxScore\SphinxScore\bin\Debug\net7.0\System.IdentityModel.Tokens.Jwt.dll

@@ -1,0 +1,47 @@
+﻿.AdminPageLayout {
+  height: 100%;
+  margin: 2px;
+}
+
+.AdminPageLayout h2 {
+  color: #ece3ce;
+}
+.AllMatches {
+  display: flex;
+  flex-direction: column;
+}
+
+.MatchLayout {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px bold;
+  border-radius: 4px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  background-color: #4f6f52;
+  margin-bottom: 10px;
+}
+
+.Containers {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.Container {
+  margin: 8px;
+  color: #ece3ce;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.Buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 4px;
+}
