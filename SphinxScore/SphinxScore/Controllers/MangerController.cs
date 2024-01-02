@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using Newtonsoft.Json.Linq;
@@ -38,6 +39,17 @@ public class MangerController : ControllerBase
             {
                 return NotFound($"Stadium not found.");
             }
+            if (stad.IsReserved)
+            {
+                ModelState.AddModelError("stadium", "Stadium is busy and can't be booked for matches currently");
+                return BadRequest(ModelState);
+
+            }
+            var filter1 = Builders<Stadium>.Filter.Eq(s => s.name, stad.name);
+
+            var update = Builders<Stadium>.Update.Set(s => s.IsReserved, true);
+
+            var updateResult = _stadiumCollection.UpdateOne(filter1, update);
             _matchCollection.InsertOne(newMatch);
             return Ok("Match added successfully");
         }

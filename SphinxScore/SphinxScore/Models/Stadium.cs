@@ -23,6 +23,8 @@ public class Stadium
     public int seats_per_row { get; set; }
     public List<List<string>> seats { get; set; }
 
+    public bool IsReserved { get; set; } = false;
+
     public void InitializeSeats()
     {
         seats = new List<List<string>>();

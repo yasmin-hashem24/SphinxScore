@@ -23,23 +23,7 @@ namespace SphinxScore.Controllers;
 public class CustomerController : ControllerBase
 {
 
-    /*
-     * Feature Description
-F8: Edit their data. The customer can edit their personal data (except for
-the username and email address).
-F9: View matches details The customer can view all matches details as well as
-the vacant seats for each match.
-F10: Reserve vacant seat(s)
-in future matches.
-The customer can select vacant seat/s only.
-The customer is asked to enter a credit card number &
-its pin number.
-Then the reservation is confirmed and a reservation
-ticket number (unique) is generated.
-F11: Cancel a reservation The customer can cancel a reserved ticket only 3 days
-before the start of the event.
-The seat/s in the reservation should be vacant again.
-     * */
+   
     private readonly IMongoCollection<User> _userCollection;
     private readonly IMongoCollection<Match> _matchCollection;
     private readonly IMongoCollection<Stadium> _stadiumCollection;
@@ -111,7 +95,7 @@ The seat/s in the reservation should be vacant again.
             return StatusCode(500, $"Error: {ex.Message}");
         }
     }
-    /*[HttpGet("ViewVacantSeats/{id}")]
+    [HttpGet("ViewVacantSeats/{id}")]
     public IActionResult ViewVacantSeats(string id)
     {
         try
@@ -120,12 +104,12 @@ The seat/s in the reservation should be vacant again.
             var stadium = _stadiumCollection.Find(stadium => stadium.name == match.match_venue).FirstOrDefault();
             Dictionary<int, List<int>> vacant_seats = new Dictionary<int, List<int>>();
 
-            for (int i = 1; i <= stadium.seats.Count; i++)
+            for (int i = 0; i < stadium.rows; i++)
             {
                 List<int> temp = new List<int>();
-                for (int j = 1; j <= stadium.seats_per_row; j++)
+                for (int j = 0; j < stadium.seats_per_row; j++)
                 {
-                    if (stadium.seats[i][j] == "")
+                    if (i < stadium.seats.Count && j < stadium.seats[i].Count&& stadium.seats[i][j] == "vacant")
                     {
                         temp.Add(j);
                     }
@@ -146,7 +130,7 @@ The seat/s in the reservation should be vacant again.
         }
     }
 
-    */
+    
 
     [HttpPost("CancelReservation/{ticketId}")]
     public IActionResult CancelReservation(string ticketId)
@@ -165,7 +149,7 @@ The seat/s in the reservation should be vacant again.
                 Stadium stadium = _stadiumCollection.Find(stadium => stadium.name == match.match_venue).FirstOrDefault();
                 //update the seat
                 var filterStadium = Builders<Stadium>.Filter.Eq(stadium_temp => stadium_temp._id, stadium._id);
-                var update = Builders<Stadium>.Update.Set($"seats.{ticket.row}.{ticket.seat}", "");
+                var update = Builders<Stadium>.Update.Set($"seats.{ticket.row}.{ticket.seat}", "vacant");
                 _stadiumCollection.UpdateOne(filterStadium, update);
 
                 //delete ticket
@@ -192,7 +176,7 @@ The seat/s in the reservation should be vacant again.
         }
     }
 
-    /*[HttpPost("ReserveVacantSeats/{matchId}")]
+    [HttpPost("ReserveVacantSeats/{matchId}")]
     public IActionResult ReserveVacantSeats(string matchId, [FromBody] Seat reservationRequest)
     {
         try
@@ -248,13 +232,14 @@ The seat/s in the reservation should be vacant again.
             return StatusCode(500, $"Error: {ex.Message}");
         }
     }
-    */
+    
 
-    [HttpGet("ViewReservedOrNotMatch/{user_id}")]
-    public IActionResult ViewReservedOrNotMatch(string user_id)
+    [HttpGet("ViewReservedOrNotMatch")]
+    public IActionResult ViewReservedOrNotMatch()
     {
         try
         {
+            string user_id = HttpContext.Session.GetString("UserId");
             var filter = Builders<User>.Filter.Eq(u => u.Id, user_id);
             var ourUser = _userCollection.Find(filter).FirstOrDefault();
 

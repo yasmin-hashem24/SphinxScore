@@ -110,7 +110,7 @@ public class AccountController : ControllerBase
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var tokenString = tokenHandler.WriteToken(token);
 
-           
+            HttpContext.Session.SetString("UserId", existingUser.Id);
             return Ok(new { Token = tokenString, User = existingUser });
         }
         catch (Exception ex)
