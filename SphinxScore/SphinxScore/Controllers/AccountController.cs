@@ -4,6 +4,12 @@ using MongoDB.Driver;
 using SphinxScore.Models;
 using System;
 using System.Text.RegularExpressions;
+using Microsoft.IdentityModel.Tokens;
+using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using System.Collections.Generic;
 
 namespace SphinxScore.Controllers;
 
@@ -48,7 +54,6 @@ public class AccountController : ControllerBase
         }
     }
 
-
     [HttpPost("Login")]
     public IActionResult LoginUser([FromBody] Login loginUser)
     {
@@ -57,26 +62,61 @@ public class AccountController : ControllerBase
             ModelState.AddModelError("credentials", "Username and password are required");
             return BadRequest(ModelState);
         }
+
         try
         {
             var existingUser = _userCollection.Find(u => u.username == loginUser.username && u.password == loginUser.password).FirstOrDefault();
+
             if (existingUser == null)
             {
-                ModelState.AddModelError("username or password","Incorrect username or password!");
+                ModelState.AddModelError("username or password", "Incorrect username or password!");
                 return BadRequest(ModelState);
             }
+
+            if (existingUser.IsApproved == false)
+            {
+                ModelState.AddModelError("username","User Is not Approved Yet");
+                return BadRequest(ModelState);
+            }
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            return Ok(existingUser);
 
+            
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes("yasminzVerySecretiveKey");
+
+            var claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.Name, existingUser.username),
+            new Claim(ClaimTypes.NameIdentifier, existingUser.Id.ToString())
+          
+        };
+
+            if (!string.IsNullOrEmpty(existingUser.role))
+            {
+                claims.Add(new Claim(ClaimTypes.Role, existingUser.role));
+            }
+
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(claims),
+                Expires = DateTime.UtcNow.AddHours(1),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            var tokenString = tokenHandler.WriteToken(token);
+
+           
+            return Ok(new { Token = tokenString, User = existingUser });
         }
         catch (Exception ex)
         {
             return StatusCode(500, $"Error: {ex.Message}");
         }
-
     }
 
     [HttpGet("ViewMatch/{id}")]

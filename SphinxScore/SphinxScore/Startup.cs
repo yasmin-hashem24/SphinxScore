@@ -12,6 +12,10 @@ using System;
 using MongoDB.Driver;
 using Microsoft.Extensions.Logging;
 using SphinxScore.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+
 
 namespace SphinxScore
 {
@@ -27,6 +31,29 @@ namespace SphinxScore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("yasminzVerySecretiveKey")),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateLifetime = true,
+                    ClockSkew = System.TimeSpan.Zero
+                };
+            });
+
+            
+            services.AddAuthorization();
+
             services.AddControllersWithViews();
 
             services.AddLogging(builder =>
@@ -56,6 +83,17 @@ namespace SphinxScore
                 var client = sp.GetRequiredService<IMongoClient>();
                 var databaseName = "SphinxScoreDB";
                 var collection = client.GetDatabase(databaseName).GetCollection<Match>("match");
+
+                var collectionNames = client.GetDatabase(databaseName).ListCollectionNames().ToList();
+
+                return collection;
+            });
+
+            services.AddScoped<IMongoCollection<Tickets>>(sp =>
+            {
+                var client = sp.GetRequiredService<IMongoClient>();
+                var databaseName = "SphinxScoreDB";
+                var collection = client.GetDatabase(databaseName).GetCollection<Tickets>("Tickets");
 
                 var collectionNames = client.GetDatabase(databaseName).ListCollectionNames().ToList();
 
@@ -104,6 +142,9 @@ namespace SphinxScore
             app.UseSpaStaticFiles();
 
             app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
+
 
             app.UseEndpoints(endpoints =>
             {

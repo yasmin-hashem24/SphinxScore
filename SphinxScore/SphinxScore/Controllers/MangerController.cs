@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -10,15 +11,9 @@ namespace SphinxScore.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize(Roles = "manager")]
 public class MangerController : ControllerBase
 {
-    /*
-                     
-            F7: View vacant/reserved
-            seats for each match.
-            The EFA managers can view the overall seat status for
-            each event (vacant/reserved)
-     */
 
     private readonly IMongoCollection<User> _userCollection;
     private readonly IMongoCollection<Match> _matchCollection;

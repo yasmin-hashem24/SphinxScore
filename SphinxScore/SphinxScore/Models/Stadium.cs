@@ -22,4 +22,5 @@ public class Stadium
     public int seats_per_row { get; set; }
     public Dictionary<int, Dictionary<int,string>> seats { get; set; }
 
+
 }
