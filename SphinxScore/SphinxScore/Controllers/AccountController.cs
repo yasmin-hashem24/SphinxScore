@@ -162,4 +162,25 @@ public class AccountController : ControllerBase
             return StatusCode(500, $"Error: {ex.Message}");
         }
     }
+
+
+    [HttpGet("ViewStadium/{id}")]
+    public IActionResult ViewStadium(string id)
+    {
+        try
+        {
+            var match = _stadiumCollection.Find(match => match._id == id).FirstOrDefault();
+
+            if (match == null)
+            {
+                return NotFound($"Stadium not found with ID: {id}");
+            }
+
+            return Ok(match);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Error: {ex.Message}");
+        }
+    }
 }

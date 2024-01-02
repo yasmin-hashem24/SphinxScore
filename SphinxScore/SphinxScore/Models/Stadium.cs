@@ -2,6 +2,7 @@
 using MongoDB.Bson;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace SphinxScore;
 
@@ -20,7 +21,21 @@ public class Stadium
 
     [Required(ErrorMessage = "number of seats per row is required")]
     public int seats_per_row { get; set; }
-    public Dictionary<int, Dictionary<int,string>> seats { get; set; }
+    public List<List<string>> seats { get; set; }
 
+    public void InitializeSeats()
+    {
+        seats = new List<List<string>>();
 
+        for (int i = 1; i <= rows; i++)
+        {
+            List<string> rowSeats = Enumerable.Repeat("vacant", seats_per_row).ToList();
+            seats.Add(rowSeats);
+        }
+    }}
+
+public class SeatRow
+{
+    public int row { get; set; }
+    public List<string> seats { get; set; }
 }

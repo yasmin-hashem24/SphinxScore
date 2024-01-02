@@ -31,6 +31,13 @@ public class MangerController : ControllerBase
     {
         try
         {
+            var filter = Builders<Stadium>.Filter.Eq(u => u.name, newMatch.match_venue);
+            var stad = _stadiumCollection.Find(filter).FirstOrDefault();
+
+            if (stad == null)
+            {
+                return NotFound($"Stadium not found.");
+            }
             _matchCollection.InsertOne(newMatch);
             return Ok("Match added successfully");
         }
@@ -97,6 +104,8 @@ public class MangerController : ControllerBase
     {
         try
         {
+            newStadoum.InitializeSeats();
+        
             _stadiumCollection.InsertOne(newStadoum);
             return Ok("Stadium added successfully");
         }
@@ -125,6 +134,9 @@ public class MangerController : ControllerBase
             return StatusCode(500, $"Error: {ex.Message}");
         }
     }
+
+
+    
 
 
 
