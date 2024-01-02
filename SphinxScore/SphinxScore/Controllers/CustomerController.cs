@@ -71,7 +71,7 @@ The seat/s in the reservation should be vacant again.
                 .Set("first_name",ourUser.first_name != " " ? ourUser.first_name : existingUser.first_name)
                 .Set("last_name",ourUser.last_name != " " ? ourUser.last_name : existingUser.last_name)
                 .Set("gender", ourUser.gender != " " ? ourUser.gender : existingUser.gender)
-                .Set("birth_date" , ourUser.birth_date==default(DateOnly) ? existingUser.birth_date : ourUser.birth_date);
+                .Set("birth_date" , ourUser.birth_date==default(DateTime) ? existingUser.birth_date : ourUser.birth_date);
 
             _userCollection.UpdateOne(filter, update);
             TryValidateModel(existingUser);

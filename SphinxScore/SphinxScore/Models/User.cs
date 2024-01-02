@@ -23,7 +23,7 @@ public class User
     public string last_name { get; set; } = " ";
 
     [Required(ErrorMessage = "Birth date is required")]
-    public DateOnly birth_date { get; set; }
+    public DateTime birth_date { get; set; }
 
     [Required(ErrorMessage = "Gender is required")]
     public string gender { get; set; } = " ";
