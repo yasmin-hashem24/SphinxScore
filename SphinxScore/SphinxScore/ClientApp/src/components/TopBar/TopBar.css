@@ -1,0 +1,14 @@
+﻿.TopBar {
+    background-color: #ece3ce;
+    width: 98%;
+    height: 2%;
+    padding: 1%;
+    position: sticky !important;
+    top: 0;
+    box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.5);
+    border-radius: 4px;
+}
+
+    .TopBar h2 {
+        color: #3a4d39;
+    }

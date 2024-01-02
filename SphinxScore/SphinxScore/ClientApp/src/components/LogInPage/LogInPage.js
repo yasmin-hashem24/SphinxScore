@@ -48,6 +48,9 @@ function LogInPage() {
                       if (response['data']['role'] === 'user') {
                           history.push("/UserPage");
                       }   
+                      else if (response['data']['role'] === 'admin') {
+                          history.push("/AdminPage");
+                      } 
                   }
               })
               .catch((error) => {

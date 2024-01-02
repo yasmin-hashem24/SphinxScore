@@ -1,0 +1,31 @@
+﻿.ReviewLayout {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ReviewCard {
+    background-color: #ece3ce;
+    width: 20%;
+    padding-left: 10%;
+    padding-right: 10%;
+    padding-bottom: 5%;
+    padding-top: 2%;
+    margin: 4%;
+    border-radius: 10px;
+    box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.ReviewCard h2 {
+    color: #3a4d39;
+}
+
+a {
+    color: inherit; 
+}
