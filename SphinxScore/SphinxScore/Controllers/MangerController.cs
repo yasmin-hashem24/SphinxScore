@@ -59,8 +59,8 @@ public class MangerController : ControllerBase
         }
     }
 
-    [HttpPatch("UpdateMatch")]
-    public IActionResult UpdateMatch([FromBody] MatchUpdateModel requestBody)
+    [HttpPatch("UpdateMatch/{id}")]
+    public IActionResult UpdateMatch(string id, [FromBody] MatchUpdateModel requestBody)
     {
         try
         {
@@ -69,35 +69,29 @@ public class MangerController : ControllerBase
                 return BadRequest("Invalid JSON data");
             }
 
-            var home = requestBody.Home;
-            var away = requestBody.Away;
+            var existingMatch = _matchCollection.Find(match => match._id == id).FirstOrDefault();
 
-            if (string.IsNullOrEmpty(home) || string.IsNullOrEmpty(away))
-            {
-                return BadRequest("Invalid 'Home' or 'Away' values");
-            }
-
-            var existingMatch = _matchCollection.Find(match => match.home_team == home && match.away_team == away).FirstOrDefault();
             if (existingMatch == null)
             {
                 return NotFound($"Match not found");
             }
 
-            var filter = Builders<Match>.Filter.Eq(match => match.home_team, home) & Builders<Match>.Filter.Eq(match => match.away_team, away);
-            existingMatch.home_team = requestBody.UpdatedMatch.home_team;
-            existingMatch.away_team = requestBody.UpdatedMatch.away_team;
-            existingMatch.match_venue = requestBody.UpdatedMatch.match_venue;
-            existingMatch.date_time = requestBody.UpdatedMatch.date_time;
-            existingMatch.main_referee = requestBody.UpdatedMatch.main_referee;
-            existingMatch.linesman1 = requestBody.UpdatedMatch.linesman1;
-            existingMatch.linesman2 = requestBody.UpdatedMatch.linesman2;
+            var filter = Builders<Match>.Filter.Eq(match => match._id, id);
 
-           
-            var updateResult = _matchCollection.ReplaceOne(filter, existingMatch);
+            var updateDefinition = Builders<Match>.Update
+                .Set(m => m.home_team, string.IsNullOrWhiteSpace(requestBody.home_team) ? existingMatch.home_team : requestBody.home_team)
+                .Set(m => m.away_team, string.IsNullOrWhiteSpace(requestBody.away_team) ? existingMatch.away_team : requestBody.away_team)
+                .Set(m => m.match_venue, string.IsNullOrWhiteSpace(requestBody.match_venue) ? existingMatch.match_venue : requestBody.match_venue)
+                .Set(m => m.main_referee, string.IsNullOrWhiteSpace(requestBody.main_referee) ? existingMatch.main_referee : requestBody.main_referee)
+                .Set(m => m.linesman1, string.IsNullOrWhiteSpace(requestBody.linesman1) ? existingMatch.linesman1 : requestBody.linesman1)
+                .Set(m => m.linesman2, string.IsNullOrWhiteSpace(requestBody.linesman2) ? existingMatch.linesman2 : requestBody.linesman2);
+
+            var updateResult = _matchCollection.UpdateOne(filter, updateDefinition);
+
 
             if (updateResult.ModifiedCount == 1)
             {
-                return Ok(existingMatch);
+                return Ok("match updated");
             }
             else
             {

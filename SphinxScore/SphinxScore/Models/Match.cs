@@ -30,7 +30,10 @@ public class Match
 }
 public class MatchUpdateModel
 {
-    public string Home { get; set; }
-    public string Away { get; set; }
-    public Match UpdatedMatch { get; set; }
+    public string? home_team { get; set; }
+    public string? away_team { get; set; }
+    public string? match_venue { get; set; }
+    public string? main_referee { get; set; }
+    public string? linesman1 { get; set; }
+    public string? linesman2 { get; set; }
 }
