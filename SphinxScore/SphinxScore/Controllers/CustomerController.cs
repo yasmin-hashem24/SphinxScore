@@ -112,7 +112,7 @@ public class CustomerController : ControllerBase
         }
     }
 
-    
+
 
     [HttpPost("CancelReservation/{ticketId}")]
     public IActionResult CancelReservation(string ticketId)
@@ -121,104 +121,150 @@ public class CustomerController : ControllerBase
         {
             Tickets ticket = _ticketCollection.Find(ticket => ticket._id == ticketId).FirstOrDefault();
 
+            if (ticket == null)
+            {
+                return NotFound($"Ticket not found with ID: {ticketId}");
+            }
 
             Match match = _matchCollection.Find(match => match._id == ticket.MatchId).FirstOrDefault();
 
+            if (match == null)
+            {
+                return NotFound($"Match not found with ID: {ticket.MatchId}");
+            }
 
             if (match.date_time >= DateTime.Now.AddDays(3))
             {
-
                 Stadium stadium = _stadiumCollection.Find(stadium => stadium.name == match.match_venue).FirstOrDefault();
-                //update the seat
-                var filterStadium = Builders<Stadium>.Filter.Eq(stadium_temp => stadium_temp._id, stadium._id);
-                var update = Builders<Stadium>.Update.Set($"seats.{ticket.row}.{ticket.seat}", "vacant");
-                _stadiumCollection.UpdateOne(filterStadium, update);
 
-                //delete ticket
-                var filter = Builders<Tickets>.Filter.Eq(ticket => ticket._id, ticketId);
-                _ticketCollection.DeleteOne(filter);
+                if (stadium != null)
+                {
+                   
+                    var filterStadium = Builders<Stadium>.Filter.Eq(stadium_temp => stadium_temp._id, stadium._id);
 
+                    foreach (var seatInfo in ticket.Seats)
+                    {
+                       
+                            int row = seatInfo["row"];
+                            int seatNum = seatInfo["seat_num"];
+
+                            var update = Builders<Stadium>.Update.Set($"seats.{row}.{seatNum}", "vacant");
+                            _stadiumCollection.UpdateOne(filterStadium, update);
+                      
+                    }
+
+                    
+                    var filter = Builders<Tickets>.Filter.Eq(t => t._id, ticketId);
+                    _ticketCollection.DeleteOne(filter);
+
+                    return Ok("Reservation canceled successfully");
+                }
+                else
+                {
+                    return NotFound($"Stadium not found for match with ID: {ticket.MatchId}");
+                }
             }
-
             else
             {
-                return Content($"Ticket can't be deleted before the match by {match.date_time - DateTime.Now} only ");
+                TimeSpan timeRemaining = match.date_time - DateTime.Now;
+                return BadRequest($"Ticket can't be canceled before the match. Time remaining: {timeRemaining.Days} days, {timeRemaining.Hours} hours.");
             }
-
-            if (ticket == null)
-            {
-                return NotFound($"Match not found with ID: {ticketId}");
-            }
-
-            return Ok();
         }
         catch (Exception ex)
         {
             return StatusCode(500, $"Error: {ex.Message}");
         }
     }
+
 
     [HttpPost("ReserveVacantSeats/{matchId}")]
     public IActionResult ReserveVacantSeats(string matchId, [FromBody] Seat reservationRequest)
     {
         try
         {
-            string user_id = HttpContext.Session.GetString("UserId");
+            string userId = HttpContext.Session.GetString("UserId");
             var match = _matchCollection.Find(m => m._id == matchId).FirstOrDefault();
+
             if (match == null)
             {
                 return NotFound($"Match not found with ID: {matchId}");
             }
 
-           
             if (match.date_time <= DateTime.Now)
             {
                 return BadRequest("Cannot reserve seats for past matches.");
             }
 
-           
             var stadium = _stadiumCollection.Find(s => s.name == match.match_venue).FirstOrDefault();
+
             if (stadium == null)
             {
                 return NotFound($"Stadium not found for match with ID: {matchId}");
             }
 
-            if (stadium.rows< reservationRequest.row || stadium.seats_per_row < reservationRequest.seat_num)
+            if (reservationRequest.Seats == null || reservationRequest.Seats.Count == 0)
             {
-                return BadRequest("Invalid seat numbers provided.");
+                return BadRequest("Invalid seat information provided.");
             }
 
-            if (stadium.seats[reservationRequest.row][reservationRequest.seat_num] != "vacant")
-            {
-                return BadRequest("Selected seats are not vacant.");
-            }
-            var filter = Builders<Stadium>.Filter.Eq(s => s.name, stadium.name);
-            var update = Builders<Stadium>.Update.Set($"seats.{reservationRequest.row}.{reservationRequest.seat_num}", "Reserved");
-            _stadiumCollection.UpdateOne(filter, update);
+            List<Dictionary<string, int>> reservedSeats = new List<Dictionary<string, int>>();
 
+            foreach (var seatInfo in reservationRequest.Seats)
+            {
+                if (!seatInfo.ContainsKey("row") || !seatInfo.ContainsKey("seat_num"))
+                {
+                    return BadRequest("Invalid seat information provided.");
+                }
+
+                int row = seatInfo["row"];
+                int seatNum = seatInfo["seat_num"];
+
+                if (row >= stadium.rows || seatNum >= stadium.seats_per_row)
+                {
+                    return BadRequest("Invalid seat numbers provided.");
+                }
+
+                if (stadium.seats[row][seatNum] != "vacant")
+                {
+                    return BadRequest("Selected seats are not vacant.");
+                }
+
+                var filter = Builders<Stadium>.Filter.Eq(s => s.name, stadium.name);
+                var update = Builders<Stadium>.Update.Set($"seats.{row}.{seatNum}", "Reserved");
+                _stadiumCollection.UpdateOne(filter, update);
+
+                reservedSeats.Add(new Dictionary<string, int>
+            {
+                { "row", row },
+                { "seat_num", seatNum },
+            });
+            }
 
             var newTicket = new Tickets
             {
                 MatchId = matchId,
-                row = reservationRequest.row,
-                seat = reservationRequest.seat_num,
-               
-              
+                CreditCardNumber = reservationRequest.CreditCardNumber,
+                PinNumber = reservationRequest.PinNumber,
+                Seats = reservedSeats,
             };
+
+            // Create one ticket with all the reserved seats
             _ticketCollection.InsertOne(newTicket);
-            var userFilter = Builders<User>.Filter.Eq(u => u.Id, user_id);
+
+            var userFilter = Builders<User>.Filter.Eq(u => u.Id, userId);
             var userUpdate = Builders<User>.Update.AddToSet(u => u.ReservedMatchIds, matchId);
             _userCollection.UpdateOne(userFilter, userUpdate);
 
-
-            return Ok("reservation made successfully");
+            return Ok("Reservation made successfully");
         }
         catch (Exception ex)
         {
             return StatusCode(500, $"Error: {ex.Message}");
         }
     }
-    
+
+
+
 
     [HttpGet("ViewReservedOrNotMatch")]
     public IActionResult ViewReservedOrNotMatch()
