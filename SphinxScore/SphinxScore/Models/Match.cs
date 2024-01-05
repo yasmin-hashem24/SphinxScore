@@ -26,7 +26,7 @@ public class Match
     public string linesman2 { get; set; } = " ";
 
 
-   
+
 }
 public class MatchUpdateModel
 {
@@ -36,4 +36,8 @@ public class MatchUpdateModel
     public string? main_referee { get; set; }
     public string? linesman1 { get; set; }
     public string? linesman2 { get; set; }
+<<<<<<< Updated upstream
 }
+=======
+}
+>>>>>>> Stashed changes

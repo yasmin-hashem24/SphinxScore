@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./AdminPage.css";
-import TopBar from "../TopBar/TopBar";
+import TopMenu from "./TopMenu";
 import Button from "@mui/material/Button";
 import axios from "axios";
 
@@ -112,7 +112,7 @@ function AdminPage() {
     }
     return (
         <div className="AdminPageLayout">
-            <TopBar user='admin'/>
+            <TopMenu user='admin'/>
             <h2>Users</h2>
             <div className="AllUsers">
                 {nonApprovedUsers.map(mapUsers)}

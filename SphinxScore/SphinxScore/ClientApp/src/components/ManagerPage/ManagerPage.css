@@ -1,9 +1,13 @@
-﻿.GuestPageLayout {
+﻿.MatchesLayout {
     height: 100%;
     margin: 2px;
 }
 
-.AllGuests {
+    .MatchesLayout h2 {
+        color: #ece3ce;
+    }
+
+.AllMatches {
     display: flex;
     flex-direction: column;
 }
@@ -18,9 +22,6 @@
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
     background-color: #4f6f52;
     margin-bottom: 10px;
-}
-.GuestPageLayout h2 {
-    color: #ece3ce;
 }
 
 .Containers {
@@ -44,12 +45,4 @@
     align-items: center;
     justify-content: center;
     margin: 4px;
-}
-
-label {
-    font-size: 24px;
-}
-
-p {
-    font-size: 16px;
 }

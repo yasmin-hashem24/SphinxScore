@@ -12,6 +12,11 @@ import "./App.css";
 import { Route } from "react-router-dom";
 import { Switch } from "react-router-dom";
 import { BrowserRouter } from "react-router-dom";
+import ManagerPage from "./components/ManagerPage/ManagerPage";
+import EditMatch from "./components/EditMatch/EditMatch"
+import MatchDetailsPage from "./components/MatchDetailsPage/MatchDetailsPage"
+import Reservations from "./components/Reservations/Reservations"
+import EditUser from "./components/FanPage/EditUser"
 
 function App() {
   return (
@@ -26,6 +31,13 @@ function App() {
               <Route path="/GuestPage" component={GuestPage} />
               <Route path="/FanPage" component={FanPage} />
               <Route path="/AddStadiumPage" component={AddStadiumPage} />
+              <Route path="/ReservePage/:matchId" component={UserPage} />
+              <Route path="/ManagerPage/" component={ManagerPage} />
+              <Route path="/EditMatch/:matchId" component={EditMatch} />
+              <Route path="/CreateMatch" component={MatchDetailsPage} />
+              <Route path="/AddStadium" component={AddStadiumPage} />
+              <Route path="/Reservations/:matchId" component={Reservations} />
+              <Route path="/EditUser" component={EditUser} />
           </Switch>
       </BrowserRouter>
   );

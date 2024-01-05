@@ -36,47 +36,94 @@ public class CustomerController : ControllerBase
         _ticketCollection = ticketCollection;
     }
     [HttpPatch("EditUser")]
-    public IActionResult EditUser([FromBody] User ourUser)  // hal acheck en el email el mb3ot mokhtlef 3n el 3ndy fy el db , wla fy el front end msh hys7mlo ygher el email
+    public IActionResult EditUser([FromBody] TempUser ourUser)
     {
         try
         {
-            //JObject requestBody = JsonSerializer.Serialize<User>(ourUser);
+            if (ourUser == null)
+            {
+                return BadRequest("Invalid JSON data");
+            }
 
-            string username = ourUser.username;
-            DateTime DefaultValue = new DateTime(3000, 01, 01, 00, 00, 00, DateTimeKind.Utc);
-            var existingUser = _userCollection.Find(user => user.username == username).FirstOrDefault();
+            string userId = HttpContext.Session.GetString("UserId");
+
+            var existingUser = _userCollection.Find(user => user.Id == userId).FirstOrDefault();
             if (existingUser == null)
             {
                 return NotFound($"User not found");
             }
 
-            var filter = Builders<User>.Filter.Eq(user => user.username, username);
+            var filter = Builders<User>.Filter.Eq(user => user.Id, userId);
 
-            var update = Builders<User>.Update.Set("password", ourUser.password != " " ? ourUser.password : existingUser.password)
-                .Set("city", ourUser.city != " " ? ourUser.city : existingUser.city)
-                .Set("address", ourUser.address != " " ? ourUser.address : existingUser.address)
-                .Set("first_name", ourUser.first_name != " " ? ourUser.first_name : existingUser.first_name)
-                .Set("last_name", ourUser.last_name != " " ? ourUser.last_name : existingUser.last_name)
-                .Set("gender", ourUser.gender != " " ? ourUser.gender : existingUser.gender)
-                .Set("birth_date", ourUser.birth_date.Equals(default(DateTime)) ? existingUser.birth_date : ourUser.birth_date);
+            var updateDefinition = Builders<User>.Update
+                .Set(u => u.password, string.IsNullOrWhiteSpace(ourUser.password) ? existingUser.password : ourUser.password)
+                .Set(u => u.city, string.IsNullOrWhiteSpace(ourUser.city) ? existingUser.city : ourUser.city)
+                .Set(u => u.address, string.IsNullOrWhiteSpace(ourUser.address) ? existingUser.address : ourUser.address)
+                .Set(u => u.first_name, string.IsNullOrWhiteSpace(ourUser.first_name) ? existingUser.first_name : ourUser.first_name)
+                .Set(u => u.last_name, string.IsNullOrWhiteSpace(ourUser.last_name) ? existingUser.last_name : ourUser.last_name);
 
-            _userCollection.UpdateOne(filter, update);
-            TryValidateModel(existingUser);
+
+            if (existingUser.birth_date != null)
+            {
+                updateDefinition = updateDefinition.Set(u => u.birth_date, existingUser.birth_date);
+            }
+
+            if (!string.IsNullOrWhiteSpace(existingUser.gender))
+            {
+                updateDefinition = updateDefinition.Set(u => u.gender, existingUser.gender);
+            }
+
+            if (!string.IsNullOrWhiteSpace(existingUser.email_address))
+            {
+                updateDefinition = updateDefinition.Set(u => u.email_address, existingUser.email_address);
+            }
+
+            if (!string.IsNullOrWhiteSpace(existingUser.role))
+            {
+                updateDefinition = updateDefinition.Set(u => u.role, existingUser.role);
+            }
+
+            _userCollection.UpdateOne(filter, updateDefinition);
+
+            var updatedUser = _userCollection.Find(user => user.Id == userId).FirstOrDefault();
+
+            TryValidateModel(updatedUser);
 
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            return Ok(existingUser);
+            return Ok(updatedUser);
         }
         catch (Exception ex)
         {
             return StatusCode(500, $"Error: {ex.Message}");
         }
-
     }
-  
+    [HttpGet("ViewUser")]
+    public IActionResult ViewUser()
+    {
+        try
+        {
+            string user_id = HttpContext.Session.GetString("UserId");
+            var filter = Builders<User>.Filter.Eq(u => u.Id, user_id);
+            var ourUser = _userCollection.Find(filter).FirstOrDefault();
+
+            if (ourUser == null)
+            {
+                return NotFound($"User with ID {user_id} not found.");
+            }
+
+
+            return Ok(ourUser);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Error: {ex.Message}");
+        }
+    }
+
     [HttpGet("ViewVacantSeats/{id}")]
     public IActionResult ViewVacantSeats(string id)
     {
@@ -114,16 +161,19 @@ public class CustomerController : ControllerBase
 
 
 
-    [HttpPost("CancelReservation/{ticketId}")]
-    public IActionResult CancelReservation(string ticketId)
+    [HttpPost("CancelReservation/{match_id}")]
+    public IActionResult CancelReservation(string match_id)
     {
         try
         {
-            Tickets ticket = _ticketCollection.Find(ticket => ticket._id == ticketId).FirstOrDefault();
+            string userId = HttpContext.Session.GetString("UserId");
+            Tickets ticket = _ticketCollection
+     .Find(ticket => ticket.MatchId == match_id && ticket.UserId == userId)
+     .FirstOrDefault();
 
             if (ticket == null)
             {
-                return NotFound($"Ticket not found with ID: {ticketId}");
+                return NotFound($"Ticket not found with Match ID: {match_id} and user_id:{userId}");
             }
 
             Match match = _matchCollection.Find(match => match._id == ticket.MatchId).FirstOrDefault();
@@ -139,23 +189,31 @@ public class CustomerController : ControllerBase
 
                 if (stadium != null)
                 {
-                   
+
                     var filterStadium = Builders<Stadium>.Filter.Eq(stadium_temp => stadium_temp._id, stadium._id);
 
                     foreach (var seatInfo in ticket.Seats)
                     {
-                       
-                            int row = seatInfo["row"];
-                            int seatNum = seatInfo["seat_num"];
 
-                            var update = Builders<Stadium>.Update.Set($"seats.{row}.{seatNum}", "vacant");
-                            _stadiumCollection.UpdateOne(filterStadium, update);
-                      
+                        int row = seatInfo["row"];
+                        int seatNum = seatInfo["seat_num"];
+
+                        var updatee = Builders<Stadium>.Update.Set($"seats.{row}.{seatNum}", "vacant");
+                        _stadiumCollection.UpdateOne(filterStadium, updatee);
+
                     }
 
-                    
-                    var filter = Builders<Tickets>.Filter.Eq(t => t._id, ticketId);
+
+                    var filter = Builders<Tickets>.Filter.Eq(t => t.MatchId, match_id) & Builders<Tickets>.Filter.Eq(t => t.UserId, userId);
                     _ticketCollection.DeleteOne(filter);
+
+
+
+                    var filter_user = Builders<User>.Filter.Eq(u => u.Id, userId);
+                    var update = Builders<User>.Update.Pull(u => u.ReservedMatchIds, match_id);
+                    var updateResult = _userCollection.UpdateOne(filter_user, update);
+
+
 
                     return Ok("Reservation canceled successfully");
                 }
@@ -242,6 +300,7 @@ public class CustomerController : ControllerBase
 
             var newTicket = new Tickets
             {
+                UserId = userId,
                 MatchId = matchId,
                 CreditCardNumber = reservationRequest.CreditCardNumber,
                 PinNumber = reservationRequest.PinNumber,

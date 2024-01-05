@@ -169,14 +169,17 @@ public class AccountController : ControllerBase
     {
         try
         {
-            var match = _stadiumCollection.Find(match => match._id == id).FirstOrDefault();
 
-            if (match == null)
+            var match = _matchCollection.Find(match => match._id == id).FirstOrDefault();
+
+            var StadiumName = match.match_venue;
+            var stadium = _stadiumCollection.Find(match => match.name == StadiumName).FirstOrDefault();
+            if (stadium == null)
             {
                 return NotFound($"Stadium not found with ID: {id}");
             }
 
-            return Ok(match);
+            return Ok(stadium);
         }
         catch (Exception ex)
         {

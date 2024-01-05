@@ -45,11 +45,15 @@ public class MangerController : ControllerBase
                 return BadRequest(ModelState);
 
             }
+            newMatch.date_time = newMatch.date_time.ToUniversalTime();
+
             var filter1 = Builders<Stadium>.Filter.Eq(s => s.name, stad.name);
 
             var update = Builders<Stadium>.Update.Set(s => s.IsReserved, true);
 
             var updateResult = _stadiumCollection.UpdateOne(filter1, update);
+
+
             _matchCollection.InsertOne(newMatch);
             return Ok("Match added successfully");
         }
@@ -111,7 +115,13 @@ public class MangerController : ControllerBase
         try
         {
             newStadoum.InitializeSeats();
-        
+            var existingUser = _stadiumCollection.Find(u => u.name == newStadoum.name).FirstOrDefault();
+            if (existingUser != null)
+            {
+                ModelState.AddModelError("Stadiumname", "Stadiumname must be unique");
+                return BadRequest(ModelState);
+            }
+
             _stadiumCollection.InsertOne(newStadoum);
             return Ok("Stadium added successfully");
         }

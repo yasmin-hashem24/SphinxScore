@@ -13,7 +13,7 @@ import MenuItem from "@mui/material/MenuItem";
 
 // Array of pages for navigation menu
 import { Link } from "react-router-dom";
-const pages = ["Matches", "MyMatches"];
+const pages = ["EditUser", "Logout"];
 
 /**
  * Represents a responsive app bar component with menus.
@@ -30,8 +30,11 @@ function TopMenu() {
   };
 
   // Event handler for closing navigation menu
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
+  const handleCloseNavMenu = (e) => {
+      setAnchorElNav(null);
+      if (e.target.dataset.userId === "Logout") {
+          localStorage.removeItem('token');
+      }
   };
 
   return (
@@ -136,10 +139,11 @@ function TopMenu() {
           >
             {/* Menu items */}
             {pages.map((page) => (
-              <Link to={`/${page}`}>
+              <Link to={(page === "Logout")?"/":`/${page}`}>
                 <Button
                   key={page}
-                  onClick={handleCloseNavMenu}
+                  data-user-id={page}
+                  onClick={(e) => handleCloseNavMenu(e)}
                   sx={{
                     my: 2,
                     color: "#ECE3CE",

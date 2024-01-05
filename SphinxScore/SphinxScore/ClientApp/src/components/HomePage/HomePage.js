@@ -24,9 +24,6 @@ function HomePage() {
             <Link to="/GuestPage">
                 <button>View Matches</button>
                       </Link>
-            <Link to="/AddStadiumPage">
-                <button>View Stadium</button>
-            </Link>
           </div>
         </div>
       </div>

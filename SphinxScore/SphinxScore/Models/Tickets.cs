@@ -14,6 +14,7 @@ public class Tickets
 
     public string _id { get; set; }
     public string MatchId { get; set; }
+    public string UserId { get; set; }
     [Required(ErrorMessage = "credit card number is required")]
     public long CreditCardNumber { get; set; }
     [Required(ErrorMessage = "Pin number is required")]

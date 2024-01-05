@@ -53,6 +53,10 @@ function LogInPage() {
                           localStorage.setItem("token", response['data']['token']);
                           history.push("/AdminPage");
                       } 
+                      else if (response['data']['user']['role'] === 'manager') {
+                          localStorage.setItem("token", response['data']['token']);
+                          history.push("/ManagerPage");
+                      } 
                   }
               })
               .catch((error) => {

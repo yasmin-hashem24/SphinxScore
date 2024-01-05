@@ -175,8 +175,9 @@ function SignUpPage() {
               })
               .catch((error) => {
                   console.log(error);
-                  setHelperUsername("Username taken. Please pick another username.");
+                  setHelperUsername("Username or email may be invalid.");
                   setErrorUsername(true);
+                  
               });
       }
       e.preventDefault();

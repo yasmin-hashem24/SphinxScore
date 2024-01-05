@@ -1,4 +1,4 @@
-.RegisterLayout {
+﻿.RegisterLayout {
     width: 100%;
     height: 100%;
     display: flex;
@@ -25,6 +25,7 @@
     .seatCard h2 {
         color: #3a4d39;
     }
+
     .seatCard button {
         margin: 4px;
         width: 100%;
@@ -41,8 +42,8 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-
 }
+
 .CrediCardLayout {
     margin-top: 10px;
     display: flex;

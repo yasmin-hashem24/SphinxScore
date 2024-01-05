@@ -1,0 +1,61 @@
+.main_match_layout {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.match_card {
+    background-color: #ece3ce;
+    width: 20%;
+    padding-left: 10%;
+    padding-right: 10%;
+    padding-top: 2%;
+    border-radius: 10px;
+    box-shadow: 5px 5px 10px 0px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.inputs {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 5%;
+    width: 160%;
+    justify-content: left;
+    padding-left: 4%;
+    margin-left: -40%;
+}
+
+.TextFields {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: left;
+    margin-left: 10%;
+}
+
+.InputLabels {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: left;
+    margin-top: 4%;
+}
+
+.Matchheader {
+    color: #3a4d39;
+    margin-left: -40%;
+    margin-bottom: 10%;
+}
+
+.ModeEditOutlinedIcon {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: left;
+    margin-left: 5%;
+}

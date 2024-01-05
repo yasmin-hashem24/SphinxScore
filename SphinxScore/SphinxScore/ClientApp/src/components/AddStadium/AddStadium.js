@@ -50,9 +50,11 @@ function AddStadiumPage() {
                 })
                 .then((response) => {
                     // Handle the response if needed
+                    alert("Stadium added successfully")
                 })
                 .catch((error) => {
                     console.log(error);
+                    alert("Please enter another stadium name")
                 });
         }
 
@@ -90,6 +92,7 @@ function AddStadiumPage() {
                         style={{ marginBottom: "10px", width: "100%" }}
                         type="number"
                         value={rows}
+                        inputProps={{ min: 1 }}
                         onChange={(e) => setRows(parseInt(e.target.value, 10))}
                     />
                     <TextField
@@ -99,6 +102,7 @@ function AddStadiumPage() {
                         style={{ marginBottom: "10px", width: "100%" }}
                         type="number"
                         value={seatsPerRow}
+                        inputProps={{ min: 1 }}
                         onChange={(e) => setSeatsPerRow(parseInt(e.target.value, 10))}
                     />
              
